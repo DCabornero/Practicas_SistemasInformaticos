@@ -1,0 +1,14 @@
+.logo{
+  width: 100px;
+  float: left;
+}
+
+.slogan{
+  /* width: 100px; */
+  margin-left: 20px;
+  float: left;
+}
+
+div {
+  border: 1px solid black;
+}
