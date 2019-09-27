@@ -1,11 +1,17 @@
 .menubutton{
-  background-color: rgb(240,230,140);
   text-align: center;
-  margin-top: 30%;
+  /*margin-top: 30%;
   margin-bottom: 30%;
-  border-radius: 30%;
-  border: 1px solid black;
+  border: 1px solid black;*/
   font-family: sans-serif;
-  color: #090C08;
+  color: grey;
   width: 100%;
+}
+
+.menubutton:hover{
+  color: white;
+}
+
+a{
+  text-decoration: none;
 }
