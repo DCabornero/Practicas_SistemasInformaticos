@@ -1,12 +1,23 @@
-.logo{
-  width: 100px;
+#logo{
+  width: 15%;
   float: left;
+  margin-left: 2.5%;
 }
 
-.slogan{
-  /* width: 100px; */
-  margin-left: 20px;
+h1 {
+  font-family: sans-serif;
+}
+
+#logoimg{
+  width: 100%;
+  height: 100%;
+}
+
+#eslogan{
+  margin-left: 5%;
+  margin-top: 2.5%;
   float: left;
+  height: 100%;
 }
 
 div {

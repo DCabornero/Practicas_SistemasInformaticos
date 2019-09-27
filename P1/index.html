@@ -4,20 +4,46 @@
     <meta charset="utf-8">
     <title>DVD & BluRay</title>
     <link rel="stylesheet" href="./styles/index.css">
+    <link rel="icon" type="image/png" href="./images/favicon.png">
   </head>
-
   <body>
-    <div id="headr">
-      <iframe src="header.html" name="Header" width="500px">
+    <header>
+      <iframe src="header.html">
+      </iframe>
+    </header>
+    <div id="menu">
+      <iframe src="menu.html">
       </iframe>
     </div>
-    <div class="menu">
-      <iframe src="menu.html" name="Menu">
-      </iframe>
+    <div id="content">
+      <h1>Novedades</h1>
     </div>
-    <div class="footer">
-      <iframe src="footer.html" name="Footer">
-      </iframe>
+    <div id="busqueda">
+      <h1>Búsqueda</h1>
+      <form>
+        <input type="text" name="searchparam"></br></br>
+        <input type="radio" name="textchoice" value="act/dir">
+        Actor/Director
+        </br></br>
+        <input type="radio" name="textchoice" value="titulo" checked>
+        Título
+        </br></br>
+        <select multiple size="4" name="Genero">
+          <option value="thriller">Thriller</option>
+          <option value="comedia">Comedia</option>
+          <option value="drama">Drama</option>
+          <option value="superheroes">Superhéroes</option>
+          <option value="documental">Documental</option>
+        </select>
+        </br></br>
+        <button id="searchbutton">
+          Buscar
+        </button>
+      </form>
     </div>
+    <footer>
+      <iframe src="footer.html">
+      </iframe>
+    </footer>
   </body>
 </html>
