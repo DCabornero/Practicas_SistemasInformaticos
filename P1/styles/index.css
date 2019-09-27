@@ -16,17 +16,22 @@ html, body {
 }
 
 header {
+  background-color: #b9c6ae;
   border: 1px solid black;
   width: 99%;
   height: 15%;
 }
 
 #searchbutton {
+  background-color: #474056;
+  color: #b9c6ae;
   border: 1px solid black;
-  border-radius: 20%;
+  border-radius: 30%;
+  width: 50%;
 }
 
 #menu {
+  background-color: #8a95a5;
   border: 1px solid black;
   width: 10%;
   height: 70%;
@@ -34,6 +39,7 @@ header {
 }
 
 #content {
+  background-color: #757083;
   width: 69%;
   height: 70%;
   float: left;
@@ -42,8 +48,9 @@ header {
 }
 
 #busqueda {
+  background-color: #8a95a5;
   border: 1px solid black;
-  width: 10%;
+  width: 20%;
   height: 70%;
   float: left;
   font-family: sans-serif;
@@ -51,6 +58,7 @@ header {
 }
 
 footer {
+  background-color: #b9c6ae;
   border: 1px solid black;
   width: 99%;
   height: 14%;
@@ -58,13 +66,25 @@ footer {
 }
 
 .novedad {
+  background-color: #757083;
   height: 80%;
   width: 33%;
   float: left;
 }
 
 .portada {
+  background-color: #757083;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+#generos {
+  width: 50%;
+}
+
+.option {
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  border-bottom-width: 1px;
 }
