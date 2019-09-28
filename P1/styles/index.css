@@ -25,11 +25,8 @@ header {
   height: 15%;
 }
 
-#searchbutton {
-  background-color: #d0d2d6;
-  color: black;
-  /*border: 1px solid black;*/
-  width: 50%;
+#logbutton {
+  border: 1px solid black;
 }
 
 #menu {

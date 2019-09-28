@@ -16,7 +16,6 @@ html, body {
 }
 
 header {
-  /*border: 1px solid black;*/
   color: #FFFFFF;
   background: #333333;
   width: 99%;
@@ -30,7 +29,6 @@ header {
 
 #menu {
   background-color: #333333;
-  /*border: 1px solid black;*/
   width: 10%;
   height: 70%;
   float: left;
@@ -62,7 +60,6 @@ header {
 
 footer {
   background: #e1e1e3;
-  /*border: 1px solid black;*/
   width: 99%;
   height: 14%;
   clear: both;

@@ -16,7 +16,6 @@ html, body {
 }
 
 header {
-  /*border: 1px solid black;*/
   background: #333333;
   width: 99%;
   height: 15%;
@@ -28,18 +27,15 @@ header {
 
 #menu {
   background-color: #333333;
-  /*border: 1px solid black;*/
   width: 10%;
   height: 70%;
   float: left;
 }
 
 #content {
-  /*background-color: #757083;*/
   width: 88.7%;
   height: 69.7%;
   float: left;
-  /*border: 1px solid black;*/
   text-align: center;
   color: #FFFFFF;
   background: #d0d2d6;
@@ -54,7 +50,6 @@ header {
 
 footer {
   background: #e1e1e3;
-  /*border: 1px solid black;*/
   width: 99%;
   height: 14%;
   clear: both;
