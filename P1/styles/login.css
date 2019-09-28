@@ -1,5 +1,5 @@
 iframe {
-  border: 1px solid black;
+  border: 0;
   width: 100%;
   height: 100%;
 }
@@ -16,44 +16,57 @@ html, body {
 }
 
 header {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  color: #FFFFFF;
+  background: #333333;
   width: 99%;
   height: 15%;
 }
 
 #logbutton {
   border: 1px solid black;
-  border-radius: 20%;
 }
 
 
 #menu {
-  border: 1px solid black;
+  background-color: #333333;
+  /*border: 1px solid black;*/
   width: 10%;
   height: 70%;
   float: left;
 }
 
 #content {
-  width: 89%;
-  height: 70%;
+  width: 88.7%;
+  height: 69.7%;
   float: left;
-  border: 1px solid red;
   text-align: center;
+  color: #FFFFFF;
+  background: #d0d2d6;
+  border-top-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-color: grey;
+  border-width: medium;
+  color: black;
 }
 
 #loginzone {
   width: 100%;
   height: 50%;
-  border: 1px solid red;
   text-align: center;
   padding-top: 5%;
   font-family: sans-serif;
+  color: black;
 }
 
 footer {
-  border: 1px solid black;
+  background: #e1e1e3;
+  /*border: 1px solid black;*/
   width: 99%;
   height: 14%;
   clear: both;
+  border-top-style: solid;
+  border-color: grey;
+  border-width: medium;
 }
