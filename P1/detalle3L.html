@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DVDs & BlueRays</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <iframe src="header.html"></iframe>
+      </header>
+
+      <section>
+        <nav>
+          <iframe src="./menuL.html"></iframe>
+        </nav>
+
+        <div id="contentpart">
+          <h1>Detalle</h1>
+          <div class="portadadet">
+            <img class="portada" src="images/portada3.jpg" alt="Portada GoldenEye">
+          </div>
+          <div class="textodet">
+            <h4>GoldenEye 007</h4>
+            <p>Sinopsis: Bond debe enfrentarse a un nuevo y peligroso enemigo.
+              Ayudado por el hampa rusa, su traicionero oponente ha robado un arma espacial
+              soviética llamada "Goldeneye", con la que planea arrasar con el mundo occidental.</p>
+            <p>Precio: 4,95€</p>
+            <button type="button" name="carrito">Añadir al carrito</button>
+            <form action="indexL.html">
+              <button type="submit" name="atras">Atrás</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="busqueda">
+          <h1>Búsqueda</h1>
+          <form>
+            <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
+            <input type="radio" name="textchoice" value="act/dir">
+            Actor/Director
+            <input type="radio" name="textchoice" value="titulo" checked>
+            Título
+            <br><br>
+            <select id="generos" name="Genero">
+              <option class="option" value="cualquiera">Todos</option>
+              <option class="option" value="thriller">Thriller</option>
+              <option class="option" value="comedia">Comedia</option>
+              <option class="option" value="drama">Drama</option>
+              <option class="option" value="superheroes">Superhéroes</option>
+              <option class="option" value="documental">Documental</option>
+            </select>
+            <br><br>
+            <button id="searchbutton">
+              Buscar
+            </button>
+          </form>
+        </div>
+
+      </section>
+
+      <footer>
+        <iframe src="footer.html"></iframe>
+      </footer>
+    </div>
+  </body>
+</html>

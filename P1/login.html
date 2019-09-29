@@ -1,35 +1,39 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="en">
   <head>
+    <title>DVDs & BlueRays</title>
     <meta charset="utf-8">
-    <title>DVD & BluRay</title>
-    <link rel="stylesheet" href="./styles/login.css">
-    <link rel="icon" type="image/png" href="./images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
   </head>
   <body>
-    <header>
-      <iframe src="header.html">
-      </iframe>
-    </header>
-    <div id="menu">
-      <iframe src="menu.html">
-      </iframe>
+    <div id="wrapper">
+      <header>
+        <iframe src="header.html"></iframe>
+      </header>
+
+      <section>
+        <nav>
+          <iframe src="./menu.html"></iframe>
+        </nav>
+
+        <div id="contentfull">
+          <h1>Login</h1>
+          <div id="loginzone">
+          <form action="index.html">
+            Correo electrónico:
+            <input type="text" name="email"><br><br>
+            Contraseña:
+            <input type="password" name="password"><br><br>
+            <button id="logbutton">Entrar</button>
+          </form>
+        </div>
+        </div>
+
+      </section>
+
+      <footer>
+        <iframe src="footer.html"></iframe>
+      </footer>
     </div>
-    <div id="content">
-      <h1>Login</h1>
-      <div id="loginzone">
-        <form>
-          Correo electrónico:
-          <input type="text" name="email"></br></br>
-          Contraseña:
-          <input type="password" name="password"></br></br>
-          <button id="logbutton">Entrar</button>
-        </form>
-      </div>
-    </div>
-    <footer>
-      <iframe src="footer.html">
-      </iframe>
-    </footer>
   </body>
 </html>

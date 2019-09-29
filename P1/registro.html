@@ -1,63 +1,66 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="en">
   <head>
+    <title>DVDs & BlueRays</title>
     <meta charset="utf-8">
-    <title>DVD & BluRay</title>
-    <link rel="stylesheet" href="./styles/registro.css">
-    <link rel="icon" type="image/png" href="./images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
   </head>
   <body>
-    <header>
-      <iframe src="header.html">
-      </iframe>
-    </header>
-    <div id="menu">
-      <iframe src="menu.html">
-      </iframe>
+    <div id="wrapper">
+      <header>
+        <iframe src="header.html"></iframe>
+      </header>
+
+      <section>
+        <nav>
+          <iframe src="./menu.html"></iframe>
+        </nav>
+
+        <div id="contentfull">
+          <h1>Registro</h1>
+          <form action="index.html">
+            Nombre:
+            <input type="text" name="nombre">
+            Apellidos:
+            <input type="text" name="apellido">
+            <br><br>
+            Género:
+            <input type="radio" name="genero" value="masculino" checked>
+            Masculino
+            <input type="radio" name="genero" value="femenino">
+            Femenino
+            <input type="radio" name="genero" value="otro">
+            Otro
+            <br><br>
+            Fecha de nacimiento:
+            <input type="date" name="fechanacimiento">
+            <br><br>
+            Email (Servirá para el login):
+            <input type="text" name="email">
+            <br><br>
+            Contraseña:
+            <input type="password" name="contrasena">
+            <br><br>
+            Intereses:
+            <select multiple size="4" name="Genero">
+              <option value="thriller">Thriller</option>
+              <option value="comedia">Comedia</option>
+              <option value="drama">Drama</option>
+              <option value="superheroes">Superhéroes</option>
+              <option value="documental">Documental</option>
+            </select>
+            <br><br>
+            Tarjeta de crédito:
+            <input type="text" name="tarjeta">
+            <br><br>
+            <button id="regbutton">Registrarse</button>
+          </form>
+        </div>
+      </section>
+
+      <footer>
+        <iframe src="footer.html"></iframe>
+      </footer>
     </div>
-    <div id="content">
-      <h1>Registro</h1>
-      <form>
-        Nombre:
-        <input type="text" name="nombre">
-        Apellidos:
-        <input type="text" name="apellido">
-        </br></br>
-        Género:
-        <input type="radio" name="genero" value="masculino" checked>
-        Masculino
-        <input type="radio" name="genero" value="femenino">
-        Femenino
-        <input type="radio" name="genero" value="otro">
-        Otro
-        </br></br>
-        Fecha de nacimiento:
-        <input type="date" name="fechanacimiento">
-        </br></br>
-        Email (Servirá para el login):
-        <input type="text" name="email">
-        </br></br>
-        Contraseña:
-        <input type="password" name="contrasena">
-        </br></br>
-        Intereses:
-        <select multiple size="4" name="Genero">
-          <option value="thriller">Thriller</option>
-          <option value="comedia">Comedia</option>
-          <option value="drama">Drama</option>
-          <option value="superheroes">Superhéroes</option>
-          <option value="documental">Documental</option>
-        </select>
-        </br></br>
-        Tarjeta de crédito:
-        <input type="text" name="tarjeta">
-        </br></br>
-        <button id="regbutton">Registrarse</button>
-      </form>
-    </div>
-    <footer>
-      <iframe src="footer.html">
-      </iframe>
-    </footer>
   </body>
 </html>
