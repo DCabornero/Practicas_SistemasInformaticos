@@ -59,7 +59,7 @@ header {
   background: #406e5e;
 }
 
-section {
+#central {
   display: flex;
   height: 100%;
 }
@@ -108,7 +108,7 @@ footer {
 }
 
 .novedad .datos {
-  transition: opacity 0.5 ease-in-out;
+  transition: opacity 0s;
 }
 
 .novedad .datos {
