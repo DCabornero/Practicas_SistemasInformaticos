@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DVDs & BlueRays</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <iframe src="header.html"></iframe>
+      </header>
+
+      <div id="central">
+        <nav>
+          <iframe src="./menu.html"></iframe>
+        </nav>
+
+        <div id="contentpart">
+          <h1>Resultados de búsqueda</h1>
+          <div id="overflow">
+            <table>
+              <thead>
+                <tr>
+                  <th>Portada</th>
+                  <th>Título</th>
+                  <th>Director</th>
+                  <th>Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="detalle1.html"><img class="portada" src="images/portada1.jpg" alt="Portada1"></a></td>
+                  <td><a href="detalle1.html">El Señor de los Anillos: La comunidad del anillo</a></td>
+                  <td>Peter Jackson</td>
+                  <td>5€</td>
+                </tr>
+                <tr>
+                  <td><a href="detalle2.html"><img class="portada" src="images/portada2.jpg" alt="Portada2"></a></td>
+                  <td><a href="detalle2.html">Tarzán</a></td>
+                  <td>Chris Buck, Kevin Lima</td>
+                  <td>3,95€</td>
+                </tr>
+                <tr>
+                  <td><a href="detalle3.html"><img class="portada" src="images/portada3.jpg" alt="Portada3"></a></td>
+                  <td><a href="detalle3.html">GoldenEye 007</a></td>
+                  <td>Martin Hollis</td>
+                  <td>4,95€</td>
+                </tr>
+                <tr>
+                  <td><a href="detalle3.html"><img class="portada" src="images/portada3.jpg" alt="Portada3"></a></td>
+                  <td><a href="detalle3.html">GoldenEye 007</a></td>
+                  <td>Martin Hollis</td>
+                  <td>4,95€</td>
+                </tr>
+                <tr>
+                  <td><a href="detalle3.html"><img class="portada" src="images/portada3.jpg" alt="Portada3"></a></td>
+                  <td><a href="detalle3.html">GoldenEye 007</a></td>
+                  <td>Martin Hollis</td>
+                  <td>4,95€</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="busqueda">
+          <h1>Búsqueda</h1>
+          <form>
+            <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
+            <input type="radio" name="textchoice" value="act/dir">
+            Actor/Director
+            <input type="radio" name="textchoice" value="titulo" checked>
+            Título
+            <br><br>
+            <select id="generos" name="Genero">
+              <option class="option" value="cualquiera">Todos</option>
+              <option class="option" value="thriller">Thriller</option>
+              <option class="option" value="comedia">Comedia</option>
+              <option class="option" value="drama">Drama</option>
+              <option class="option" value="superheroes">Superhéroes</option>
+              <option class="option" value="documental">Documental</option>
+            </select>
+            <br><br>
+            <button id="searchbutton">
+              Buscar
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <footer>
+        <iframe src="footer.html"></iframe>
+      </footer>
+    </div>
+  </body>
+</html>

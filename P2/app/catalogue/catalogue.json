@@ -9,7 +9,8 @@
       "precio": 18.99,
       "categoria": "Aventura, Ciencia Ficción, Acción",
       "anio": 1999,
-      "actores": "Jake Lloyd, Ewan McGregor"
+      "actores": "Jake Lloyd, Ewan McGregor",
+      "dest": true,
     },
     {
       "id": 2,
@@ -19,7 +20,9 @@
       "director": "George Lucas",
       "actores": "Hayden Christensen,   Ewan McGregor,   Natalie Portman,   Ian McDiarmid,   Samuel L. Jackson,   Christopher Lee,   Temuera Morrison,   Pernilla August,   Jimmy Smits,   Anthony Daniels,   Kenny Baker,   Frank Oz,   Andy Secombe,   Rose Byrne,   Oliver Ford Davies,   Jack Thompson,   Joel Edgerton,   Ahmed Best,   Silas Carson",
       "sinopsis": "Corren tenebrosos tiempos para la República, que continúa envuelta en luchas y sumida en el caos. Un movimiento separatista, formado por centenares de planetas y poderosas alianzas encabezadas por el misterioso conde Dooku, amenaza la galaxia. Ni siquiera los Jedi parecen capaces de conjurar el peligro. Este movimiento provoca el estallido de las guerras clones, que representa el principio del fin de la República. Para allanar el camino, los separatistas intentan asesinar a la senadora Padme Amidala. Para evitar futuros atentados, su seguridad es encomendada a dos caballeros Jedi...",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 15.95,
+      "dest": true,
     },
     {
       "id": 3,
@@ -29,58 +32,70 @@
       "director": "George Lucas",
       "actores": "Hayden Christensen,   Ewan McGregor,   Natalie Portman,   Ian McDiarmid,   Samuel L. Jackson,   Jimmy Smits,   Anthony Daniels,   Kenny Baker,   Frank Oz,   Christopher Lee,   Peter Mayhew,   Silas Carson,   Keisha Castle-Hughes,   Temuera Morrison,   Trisha Noble,   Bruce Spence,   Ahmed Best,   Joel Edgerton,   George Lucas",
       "sinopsis": "Último capítulo de la trilogía de precuelas de Star Wars, en el que Anakin Skywalker definitivamente se pasa al lado oscuro. En el Episodio III aparece el General Grievous, un ser implacable mitad-alien mitad-robot, el líder del ejército separatista Droid. Los Sith son los amos del lado oscuro de la Fuerza y los enemigos de los Jedi. Fueron prácticamente exterminados por los Jedi hace mil años, pero esta orden del mal sobrevivió en la clandestinidad.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 5.99,
+      "dest": true,
     },
     {
       "id": 4,
       "titulo": "La guerra de las galaxias. Episodio IV: Una nueva esperanza ",
       "anio": "1977",
-      "direccion": "George Lucas",
+      "director": "George Lucas",
       "poster": "imagenes/SWEp4.jpg",
-      "reparto": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   Alec Guinness,   Peter Cushing,   David Prowse,   Peter Mayhew,   Anthony Daniels,   Kenny Baker,   Phil Brown,   Shelagh Fraser,   Garrick Hagon,   Denis Lawson,   Alex McCrindle,   Richard LeParmentier,   Drewe Henley,   Jack Purvis,   Don Henderson,   William Hootkins,   Malcolm Tierney",
+      "actores": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   Alec Guinness,   Peter Cushing,   David Prowse,   Peter Mayhew,   Anthony Daniels,   Kenny Baker,   Phil Brown,   Shelagh Fraser,   Garrick Hagon,   Denis Lawson,   Alex McCrindle,   Richard LeParmentier,   Drewe Henley,   Jack Purvis,   Don Henderson,   William Hootkins,   Malcolm Tierney",
       "sinopsis": "La princesa Leia, líder del movimiento rebelde que desea reinstaurar la República en la galaxia en los tiempos ominosos del Imperio, es capturada por las Fuerzas Imperiales, capitaneadas por el implacable Darth Vader, el sirviente más fiel del Emperador. El intrépido y joven Luke Skywalker, ayudado por Han Solo, capitán de la nave espacial &quot;El Halcón Milenario&quot;, y los androides, R2D2 y C3PO, serán los encargados de luchar contra el enemigo e intentar rescatar a la princesa para volver a instaurar la justicia en el seno de la galaxia.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 3.50,
+      "dest": false,
     },
     {
       "id": 5,
       "titulo": "La guerra de las galaxias. Episodio V: El imperio contraataca ",
       "anio": "1980",
-      "direccion": "Irvin Kershner",
+      "director": "Irvin Kershner",
       "poster": "imagenes/SWEp5.jpg",
-      "reparto": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   Frank Oz,   Billy Dee Williams,   David Prowse,   Alec Guinness,   Anthony Daniels,   Kenny Baker,   Peter Mayhew,   Jeremy Bulloch,   Kenneth Colley,   Bruce Boa,   Julian Glover,   Denis Lawson,   Michael Culver,   John Ratzenberger,   Michael Sheard",
+      "actores": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   Frank Oz,   Billy Dee Williams,   David Prowse,   Alec Guinness,   Anthony Daniels,   Kenny Baker,   Peter Mayhew,   Jeremy Bulloch,   Kenneth Colley,   Bruce Boa,   Julian Glover,   Denis Lawson,   Michael Culver,   John Ratzenberger,   Michael Sheard",
       "sinopsis": "Tras un ataque sorpresa de las tropas imperiales a las bases camufladas de la alianza rebelde, Luke Skywalker, en compañía de R2D2, parte hacia el planeta Dagobah en busca de Yoda, el último maestro Jedi, para que le enseñe los secretos de la Fuerza. Mientras, Han Solo, la princesa Leia, Chewbacca, y C3PO esquivan a las fuerzas imperiales y piden refugio al antiguo propietario del Halcón Milenario, Lando Calrissian, en la ciudad minera de Bespin, donde les prepara una trampa urdida por Darth Vader.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 14.00,
+      "dest": false,
     },
     {
       "id": 6,
       "titulo": "La guerra de las galaxias. Episodio VI: El retorno del Jedi ",
       "anio": "1983",
       "poster": "imagenes/SWEp6.jpg",
-      "direccion": "Richard Marquand",
-      "reparto": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   David Prowse,   Ian McDiarmid,   Billy Dee Williams,   Frank Oz,   Alec Guinness,   Anthony Daniels,   Kenny Baker,   Peter Mayhew,   Sebastian Shaw,   Warwick Davis,   Caroline Blakiston,   Dermot Crowley,   Kenneth Colley,   Denis Lawson,   Michael Pennington",
+      "director": "Richard Marquand",
+      "actores": "Mark Hamill,   Harrison Ford,   Carrie Fisher,   David Prowse,   Ian McDiarmid,   Billy Dee Williams,   Frank Oz,   Alec Guinness,   Anthony Daniels,   Kenny Baker,   Peter Mayhew,   Sebastian Shaw,   Warwick Davis,   Caroline Blakiston,   Dermot Crowley,   Kenneth Colley,   Denis Lawson,   Michael Pennington",
       "sinopsis": "Para ir a Tatooine y liberar a Han Solo, Luke Skywalker y la princesa Leia deben infiltrarse en la peligrosa guarida de Jabba the Hutt, el gángster más temido de la galaxia. Una vez reunidos, el equipo recluta a tribus de Ewoks para combatir a las fuerzas imperiales en los bosques de la luna de Endor. Mientras tanto, el Emperador y Darth Vader conspiran para atraer a Luke al lado oscuro, pero el joven está decidido a reavivar el espíritu del Jedi en su padre. La guerra civil galáctica termina con un último enfrentamiento entre las fuerzas rebeldes unificadas y una segunda Estrella de la Muerte, indefensa e incompleta, en una batalla que decidirá el destino de la galaxia.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 9.99,
+      "dest": false,
     },
     {
       "id": 7,
       "titulo": "Star Wars: El despertar de la Fuerza ",
       "anio": "2015",
       "poster": "imagenes/SWEp7.jpg",
-      "direccion": "J.J. Abrams",
-      "reparto": "Daisy Ridley,   John Boyega,   Harrison Ford,   Adam Driver,   Oscar Isaac,   Carrie Fisher,   Peter Mayhew,   Domhnall Gleeson,   Max von Sydow,   Gwendoline Christie,   Lupita Nyong'o,   Andy Serkis,   Anthony Daniels,   Mark Hamill,   Greg Grunberg,   Kenny Baker,   Simon Pegg,   Christina Chong,   Miltos Yerolemou,   Ken Leung,   Thomas Brodie-Sangster,   Harriet Walter,   Iko Uwais,   Yayan Ruhian,   Warwick Davis,   Jessica Henwick,   Daniel Craig,   Billie Lourd,   Judah Friedlander",
+      "director": "J.J. Abrams",
+      "actores": "Daisy Ridley,   John Boyega,   Harrison Ford,   Adam Driver,   Oscar Isaac,   Carrie Fisher,   Peter Mayhew,   Domhnall Gleeson,   Max von Sydow,   Gwendoline Christie,   Lupita Nyong'o,   Andy Serkis,   Anthony Daniels,   Mark Hamill,   Greg Grunberg,   Kenny Baker,   Simon Pegg,   Christina Chong,   Miltos Yerolemou,   Ken Leung,   Thomas Brodie-Sangster,   Harriet Walter,   Iko Uwais,   Yayan Ruhian,   Warwick Davis,   Jessica Henwick,   Daniel Craig,   Billie Lourd,   Judah Friedlander",
       "sinopsis": "Treinta años después de la victoria de la Alianza Rebelde sobre la segunda Estrella de la Muerte (hechos narrados en el Episodio VI: El retorno del Jedi), la galaxia está todavía en guerra. Una nueva República se ha constituido, pero una siniestra organización, la Primera Orden, ha resurgido de las cenizas del Imperio Galáctico. A  los héroes de antaño, que luchan ahora en la Resistencia, se suman nuevos héroes: Poe Dameron, un piloto de caza, Finn, un soldado desertor de la Primera Orden, Rey, una joven chatarrera, y BB-8, un androide rodante. Todos ellos luchan contra las fuerzas del Mal: el Capitán Phasma, de la Primera Orden, y Kylo Ren, un temible y misterioso personaje que empuña un sable de luz roja.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 8.75,
+      "dest": false,
     },
     {
       "id": 8,
       "titulo": "Star Wars: Los últimos Jedi ",
       "anio": "2017",
       "poster": "imagenes/SWEp8.jpg",
-      "direccion": "Rian Johnson",
-      "reparto": "Daisy Ridley,   John Boyega,   Adam Driver,   Oscar Isaac,   Mark Hamill,   Carrie Fisher,   Kelly Marie Tran,   Domhnall Gleeson,   Benicio del Toro,   Laura Dern,   Andy Serkis,   Gwendoline Christie,   Lupita Nyong'o,   Anthony Daniels,   Frank Oz,   Warwick Davis,   Veronica Ngo,   Justin Theroux,   Billie Lourd,   Lily Cole,   Navin Chowdhry,   Temirlan Blaev,   Sara Heller,   Josiah Oniha,   Joseph Gordon-Levitt",
+      "director": "Rian Johnson",
+      "actores": "Daisy Ridley,   John Boyega,   Adam Driver,   Oscar Isaac,   Mark Hamill,   Carrie Fisher,   Kelly Marie Tran,   Domhnall Gleeson,   Benicio del Toro,   Laura Dern,   Andy Serkis,   Gwendoline Christie,   Lupita Nyong'o,   Anthony Daniels,   Frank Oz,   Warwick Davis,   Veronica Ngo,   Justin Theroux,   Billie Lourd,   Lily Cole,   Navin Chowdhry,   Temirlan Blaev,   Sara Heller,   Josiah Oniha,   Joseph Gordon-Levitt",
       "sinopsis": "La malvada Primera Orden se ha vuelto más poderosa y tiene contra las cuerdas a la Resistencia, liderada por la General Leia Organa (Carrie Fisher). El piloto Poe Dameron (Oscar Isaac) encabeza una misión para intentar destruir un acorazado de la Primera Orden. Mientras tanto, la joven Rey (Daisy Ridley) tendrá que definir su futuro y su vocación, y el viejo jedi Luke Skywalker (Mark Hamill) revaluar el significado de su vida.",
-      "categoria": "Aventura, Ciencia Ficción, Acción"
-    }
+      "categoria": "Aventura, Ciencia Ficción, Acción",
+      "precio": 11.25,
+      "dest": false,
+    },
     {
 			"id": 9,
 			"titulo": "El Señor de los Anillos: La Comunidad del Anillo",
@@ -90,7 +105,9 @@
       "precio": 15.99,
       "categoria": "Aventura, Fantasía",
       "anio": "2001",
-      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom"
+      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom",
+      "precio": 5.00,
+      "dest": false,
     },
     {
 			"id": 10,
@@ -101,7 +118,9 @@
       "precio": 16.99,
       "categoria": "Aventura, Fantasía",
       "anio": "2002",
-      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom"
+      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom",
+      "precio": 3.75,
+      "dest": false,
     },
     {
 			"id": 11,
@@ -112,27 +131,33 @@
       "precio": 17.99,
       "categoria": "Aventura, Fantasía",
       "anio": "2003",
-      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom"
+      "actores": "Elijah Wood, Ian McKellen, Orlando Bloom",
+      "precio": 9.00,
+      "dest": false,
     },
     {
       "id": 12,
       "titulo": "Tarzán ",
       "anio": "1999",
       "poster": "imagenes/Tarzan.jpg",
-      "direccion": "Kevin Lima,   Chris Buck",
-      "reparto": "Animation",
+      "director": "Kevin Lima,   Chris Buck",
+      "actores": "Animation",
       "sinopsis": "Cuando Kala, una gorila hembra, encuentra un niño huérfano en la jungla, decide adoptarlo como su propio hijo a pesar de la oposición de Kerchak, el jefe de la manada. Junto a Terk, un gracioso mono y Tantor, un elefante algo neurótico, Tarzán crecerá en la jungla desarrollando los instintos de los animales y aprendiendo a deslizarse entre los árboles a velocidad de vértigo. Pero cuando una expedición se adentra en la jungla y Tarzán conoce a Jane, descubrirá quién es realmente y cuál es el mundo al que pertenece...",
-      "categoria": "Animacion, Infantil"
+      "categoria": "Animacion, Infantil",
+      "precio": 8.65,
+      "dest": false,
     },
     {
       "id": 13,
       "titulo": "Goldeneye ",
       "anio": "1995",
       "poster": "imagenes/Goldeneye.jpg",
-      "direccion": "Martin Campbell",
-      "reparto": "Pierce Brosnan,   Famke Janssen,   Izabella Scorupco,   Sean Bean,   Gottfried John,   Joe Don Baker,   Judi Dench,   Tchéky Karyo,   Alan Cumming,   Minnie Driver,   Robbie Coltrane,   Samantha Bond,   Desmond Llewelyn,   Michael Kitchen,   Serena Gordon,   Billy J. Mitchell,   Ravil Isyanov",
+      "director": "Martin Campbell",
+      "actores": "Pierce Brosnan,   Famke Janssen,   Izabella Scorupco,   Sean Bean,   Gottfried John,   Joe Don Baker,   Judi Dench,   Tchéky Karyo,   Alan Cumming,   Minnie Driver,   Robbie Coltrane,   Samantha Bond,   Desmond Llewelyn,   Michael Kitchen,   Serena Gordon,   Billy J. Mitchell,   Ravil Isyanov",
       "sinopsis": "Estando de vacaciones, Bond conoce a la bella y letal Xenia Onatopp, que intenta hacerse con los planos de un nuevo helicóptero invulnerable a las interferencias. La programadora militar rusa Natalya Siminova es la única superviviente de su equipo tras un macabro plan del general Ourumov para hacerse con Goldeneye, un arma espacial ultrasecreta que emite pulsos nucleares que inutilizan cualquier equipo electrónico. Bond formará equipo con Natalya para descubrir a los malhechores tras el robo.",
-      "categoria": "Acción, Thriller"
+      "categoria": "Acción, Thriller",
+      "precio": 7.00,
+      "dest": false,
     }
   ]
 }

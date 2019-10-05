@@ -1,0 +1,180 @@
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th, td {
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+
+td {
+  height: 150px;
+}
+
+tr:hover {
+  background-color: lightgrey;
+}
+
+tbody {
+  overflow-y: scroll;
+}
+
+thead {
+  max-width: 150px;
+}
+
+html, body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f1f1f1;
+}
+
+#wrapper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#overflow{
+  overflow-y: scroll;
+  height: 500px;;
+}
+
+h1, h2 {
+  font-family: Impact, sans-serif;
+}
+
+header {
+  background: #406e5e;
+}
+
+#central {
+  display: flex;
+  height: 100%;
+}
+
+nav {
+  flex: 1;
+  background: #333333;
+  padding: 20px;
+}
+
+#contentpart {
+  flex: 10;
+  text-align: center;
+}
+
+#contentfull {
+  flex: 12;
+  text-align: center;
+}
+
+#novedades {
+  flex: 10;
+  background-color: #f1f1f1;
+  display: flex;
+}
+
+footer {
+  background: #e1e1e3;
+}
+
+@media (max-width: 600px) {
+  section {
+    flex-direction: column;
+  }
+}
+
+.novedad {
+  width: 33%;
+  float: left;
+  color: black;
+  font-family: sans-serif;
+  position: relative;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.novedad .datos {
+  transition: opacity 0s;
+}
+
+.novedad .datos {
+  text-align: center;
+  position: absolute;
+  top:0;
+  left: 0;
+  opacity:0;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.novedad:hover .portada {
+  opacity:0;
+}
+
+.novedad:hover .datos {
+  opacity:1;
+}
+
+.novedad:focus {
+  opacity:0;
+}
+
+.portada {
+  background: #d0d2d6;
+  width: 80%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#busqueda {
+  background-color: #333333;
+  width: 19.55%;
+  height: 100%;
+  float: left;
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+  padding-top: 5%;
+  flex: 2;
+}
+
+#logbutton {
+  border: 1px solid black;
+}
+
+#loginzone {
+  width: 100%;
+  height: 50%;
+  text-align: center;
+  padding-top: 5%;
+  font-family: sans-serif;
+  color: black;
+}
+
+.portadadet {
+  float: left;
+  margin-left: 10%;
+  margin-top: 5%;
+  width: 20%;
+}
+
+.textodet {
+  float: right;
+  width: 40%;
+  margin-right: 10%;
+  margin-top: 5%;
+}

@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}
-    {{ title }}
-{% endblock%}
-
 {% block content %}
-    <ul>
+  <h1>Novedades</h1>
+  <div id="novedades">
     {% for item in movies %}
-    <li>{{ item.titulo }}</li>
+    {% if item.dest %}
+    <div class="novedad">
+        <a href="?">
+          <img src={{item.poster}} alt="Portada">
+        </a>
+        <div class="datos">
+          <h4>{{item.titulo}}</h4>
+          <p>Sinopsis: {{item.sinopsis}}</p>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
-    <ul>
+  </div>
 {% endblock %}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DVDs & BlueRays</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <iframe src="header.html"></iframe>
+      </header>
+
+      <div id="central">
+        <nav>
+          <iframe src="./menu.html"></iframe>
+        </nav>
+
+        <div id="contentpart">
+          <h1>Novedades</h1>
+          <div id="novedades">
+            <div class="novedad">
+              <a href="detalle1.html">
+                <img class="portada" src="images/portada1.jpg" alt="Portada1">
+              </a>
+              <div class="datos">
+                <h4>El Señor de los Anillos: La comunidad del anillo</h4>
+                <p>Sinopsis: Frodo Bolsón es un hobbit al que su tío Bilbo hace portador
+                  del poderoso Anillo Único, capaz de otorgar un poder ilimitado al que la posea,
+                  con la finalidad de destruirlo. Sin embargo, fuerzas malignas muy poderosas quieren arrebatárselo.</p>
+              </div>
+            </div>
+            <div class="novedad">
+              <a href="detalle2.html">
+                <img class="portada" src="images/portada2.jpg" alt="Portada2">
+              </a>
+              <div class="datos">
+                <h4>Tarzán</h4>
+                <p>Sinopsis: La gorila Kala encuentra un niño huérfano en la jungla y lo adopta como su
+                  propio hijo a pesar de la oposición de Kerchak, el jefe de la manada. El joven
+                  Tarzán crecerá en la jungla desarrollando los instintos de los animales y aprendiendo a
+                  deslizarse por los árboles a una gran velocidad. El joven vive como un animal hasta que una
+                  expedición se adentra en la jungla y conoce a Jane, que le hará descubrir quién es realmente
+                  y cuál es el mundo al que pertenece.</p>
+              </div>
+            </div>
+            <div class="novedad">
+              <a href="detalle3.html">
+                <img class="portada" src="images/portada3.jpg" alt="Portada3">
+              </a>
+              <div class="datos">
+                <h4>GoldenEye 007</h4>
+                <p>Sinopsis: Bond debe enfrentarse a un nuevo y peligroso enemigo.
+                  Ayudado por el hampa rusa, su traicionero oponente ha robado un arma espacial
+                  soviética llamada "Goldeneye", con la que planea arrasar con el mundo occidental.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="busqueda">
+          <h1>Búsqueda</h1>
+          <form action="resultados.html">
+            <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
+            <input type="radio" name="textchoice" value="act/dir">
+            Actor/Director
+            <input type="radio" name="textchoice" value="titulo" checked>
+            Título
+            <br><br>
+            <select id="generos" name="Genero">
+              <option class="option" value="cualquiera">Todos</option>
+              <option class="option" value="thriller">Thriller</option>
+              <option class="option" value="comedia">Comedia</option>
+              <option class="option" value="drama">Drama</option>
+              <option class="option" value="superheroes">Superhéroes</option>
+              <option class="option" value="documental">Documental</option>
+            </select>
+            <br><br>
+            <button id="searchbutton">
+              Buscar
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <footer>
+        <iframe src="footer.html"></iframe>
+      </footer>
+    </div>
+  </body>
+</html>

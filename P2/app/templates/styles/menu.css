@@ -1,0 +1,23 @@
+.menubutton{
+  text-align: center;
+  font-family: sans-serif;
+  color: grey;
+  width: 100%;
+}
+
+.menubutton:hover{
+  color: white;
+}
+
+#bienvenido{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  font-family: sans-serif;
+  color: grey;
+}
+
+a{
+  text-decoration: none;
+}
