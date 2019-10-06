@@ -6,7 +6,7 @@
     {% for item in movies %}
     {% if item.dest %}
     <div class="novedad">
-        <a href="?">
+        <a href={{'detalle/'~item.id}}>
           <img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada">
         </a>
         <div class="datos">

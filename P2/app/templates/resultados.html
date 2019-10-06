@@ -15,13 +15,13 @@
       <tbody>
       {% for item in movies %}
         <tr>
-          <td><a href="??"><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
-          <td><a href="??">{{item.titulo}}</a></td>
+          <td><a href={{'detalle/'~item.id}}><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
+          <td><a href={{'detalle/'~item.id}}>{{item.titulo}}</a></td>
           <td>{{item.director}}</td>
           <td>{{item.precio~'€'}}</td>
         </tr>
       {% endfor %}
       </tbody>
-    </table>    
+    </table>
   </div>
 {% endblock %}

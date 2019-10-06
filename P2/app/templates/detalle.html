@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Detalle</h1>
+<div class="portadadet">
+  <img class="portada" src={{ url_for('static', filename='portadas/'~movie.id~'.jpg') }} alt="Portada">
+</div>
+<div class="textodet">
+  <h4>{{movie.titulo}}</h4>
+  <p>Año: {{movie.anio}}</p>
+  <p>Director/es: {{movie.director}}</p>
+  <p>Actores: {{movie.actores}}</p>
+  <p>Sinopsis: {{movie.sinopsis}}</p>
+  <p>Categorías: {{movie.categoria}}</p>
+  <p>Precio: {{movie.precio~'€'}}</p>
+  <form action={{ref}}>
+    <button type="submit" name="atras">Atrás</button>
+  </form>
+</div>
+{% endblock %}

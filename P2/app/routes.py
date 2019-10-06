@@ -45,17 +45,25 @@ def logout():
 def iframes(name):
     return render_template(name)
 
-@app.route('/resultados.html', methods=['GET', 'POST'])
+@app.route('/resultados.html')
 def resultados():
     catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
-    params = request.form
+    params = request.args
     if(params['searchparam'] != ""):
         if(params['textchoice'] == 'actdir'):
-            movies=list(filter(lambda film: params['searchparam'].lower() in film['actores'].lower() or params['searchparam'].lower() in film['director'].lower(), movies))
+            movies=list(filter(lambda film: params.get('searchparam').lower() in film['actores'].lower() or params.get('searchparam').lower() in film['director'].lower(), movies))
         elif(params['textchoice'] == 'titulo'):
-            movies=list(filter(lambda film: params['searchparam'].lower() in film['titulo'].lower(), movies))
+            movies=list(filter(lambda film: params.get('searchparam').lower() in film['titulo'].lower(), movies))
     if(params['genero'] != 'cualquiera'):
-        movies=list(filter(lambda film: params['genero'].lower() in film['categoria'].lower(), movies))
+        movies=list(filter(lambda film: params.get('genero').lower() in film['categoria'].lower(), movies))
     return render_template('resultados.html', movies=movies)
+
+@app.route('/detalle/<id>', methods=['GET', 'POST'])
+def detalle(id):
+    catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
+    catalogue = json.loads(catalogue_data)
+    movies=catalogue['peliculas']
+    movies=list(filter(lambda film: str(film['id']) == id, movies))
+    return render_template('detalle.html', movie=movies[0], ref=request.referrer)
