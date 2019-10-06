@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
-    <link rel="stylesheet" type="text/css" href="./styles/header.css">
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles/header.css') }}/>
     <meta charset="utf-8">
     <base target="_parent">
     <title>Titulo</title>
@@ -10,7 +10,7 @@
     <header>
       <div id="logo">
         <a href="./index.html">
-          <img src="./images/Logo.png" id="logoimg" alt="Logo">
+          <img src={{ url_for('static', filename='images/logo.png') }} id="logoimg" alt="Logo">
         </a>
       </div>
       <div id="eslogan">

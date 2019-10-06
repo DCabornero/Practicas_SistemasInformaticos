@@ -29,9 +29,9 @@ def login():
             # aqui se le puede pasar como argumento un mensaje de login invalido
             return render_template('login.html', title = "Sign In")
     else:
-        # se puede guardar la pagina desde la que se invoca 
+        # se puede guardar la pagina desde la que se invoca
         session['url_origen']=request.referrer
-        session.modified=True        
+        session.modified=True
         # print a error.log de Apache si se ejecuta bajo mod_wsgi
         print (request.referrer, file=sys.stderr)
         return render_template('login.html', title = "Sign In")
@@ -40,3 +40,7 @@ def login():
 def logout():
     session.pop('usuario', None)
     return redirect(url_for('index'))
+
+@app.route('/iframes/<name>')
+def iframes(name):
+    return render_template(name)
