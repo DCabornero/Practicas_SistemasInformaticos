@@ -23,20 +23,21 @@
 
         <div id="busqueda">
           <h1>Búsqueda</h1>
-          <form action="resultados.html">
+          <form action="resultados.html" method="post">
             <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
-            <input type="radio" name="textchoice" value="act/dir">
+            <input type="radio" name="textchoice" value="actdir">
             Actor/Director
             <input type="radio" name="textchoice" value="titulo" checked>
             Título
             <br><br>
-            <select id="generos" name="Genero">
+            <select id="generos" name="genero">
               <option class="option" value="cualquiera">Todos</option>
               <option class="option" value="thriller">Thriller</option>
-              <option class="option" value="comedia">Comedia</option>
-              <option class="option" value="drama">Drama</option>
-              <option class="option" value="superheroes">Superhéroes</option>
-              <option class="option" value="documental">Documental</option>
+              <option class="option" value="acción">Acción</option>
+              <option class="option" value="fantasía">Fantasía</option>
+              <option class="option" value="ciencia ficción">Ciencia Ficción</option>
+              <option class="option" value="animación">Animación</option>
+              <option class="option" value="infantil">Infantil</option>
             </select>
             <br><br>
             <button id="searchbutton">
