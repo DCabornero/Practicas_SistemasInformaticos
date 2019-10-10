@@ -1,0 +1,49 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+
+    <h1>Registro</h1>
+    <form action={{url_for('registro')}} method='post'>
+      Nombre:
+      <input type="text" name="nombre">
+      Apellidos:
+      <input type="text" name="apellido">
+      <br><br>
+      Género:
+      <input type="radio" name="genero" value="masculino" checked>
+      Masculino
+      <input type="radio" name="genero" value="femenino">
+      Femenino
+      <input type="radio" name="genero" value="otro">
+      Otro
+      <br><br>
+      Fecha de nacimiento:
+      <input type="date" name="fechanacimiento" value="">
+      <br><br>
+      Email (Servirá para el login):
+      <input type="text" name="email">
+      <br><br>
+      Contraseña:
+      <input type="password" name="contrasena">
+      <br><br>
+      Repita la contraseña:
+      <input type="password" name="contrasenaconf">
+      <br><br>
+      {% if errorcont %}
+        <p class="error"> Las contraseñas no coinciden </p>
+      {% endif %}
+      Intereses:
+      <br><br>
+      Tarjeta de crédito:
+      <input type="text" name="tarjeta">
+      <br><br>
+      <button id="regbutton">Registrarse</button>
+      {% if errorvacio %}
+        <p class="error"> Rellene todos los campos </p>
+      {% endif %}
+      {% if errorex %}
+        <p class="error"> Ya existe una cuenta con ese email </p>
+      {% endif %}
+    </form>
+
+{% endblock %}

@@ -23,7 +23,7 @@
 
         <div id="busqueda">
           <h1>Búsqueda</h1>
-          <form action="resultados.html" method="get">
+          <form action={{url_for('resultados')}} method="get">
             <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
             <input type="radio" name="textchoice" value="actdir">
             Actor/Director

@@ -6,6 +6,7 @@ from flask import render_template, request, url_for, redirect, session
 import json
 import os
 import sys
+import hashlib
 
 @app.route('/')
 @app.route('/index')
@@ -45,7 +46,7 @@ def logout():
 def iframes(name):
     return render_template(name)
 
-@app.route('/resultados.html')
+@app.route('/resultados')
 def resultados():
     catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
     catalogue = json.loads(catalogue_data)
@@ -66,4 +67,41 @@ def detalle(id):
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
     movies=list(filter(lambda film: str(film['id']) == id, movies))
-    return render_template('detalle.html', movie=movies[0], ref=request.referrer)
+    return render_template('detalle.html', movie=movies[0])
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'GET':
+        return render_template('registro.html')
+    elif request.method == 'POST':
+        if request.form['contrasena'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['nombre'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['apellido'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['email'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['tarjeta'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['fechanacimiento'] == '':
+            return render_template('registro.html', errorvacio=True)
+        if request.form['contrasena'] != request.form['contrasenaconf']:
+            return render_template('registro.html', errorcont=True)
+        if os.path.isdir(os.path.join(app.root_path, 'usuarios/'+request.form['email'])):
+            return render_template('registro.html', errorex=True)
+        os.mkdir(os.path.join(app.root_path, 'usuarios/'+request.form['email']))
+        os.mknod(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'))
+        os.mknod(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'))
+        historial = {
+            "peliculas": []
+        }
+        datos = {
+            "nombre": request.form['nombre'],
+            "apellido": request.form['apellido'],
+            "email": request.form['email'],
+            "tarjeta": request.form['tarjeta'],
+            "fechanacimiento": request.form['fechanacimiento'],
+            "contrasena": hashlib.md5(request.form['contrasena']).hexdigest(),
+        }
+        return render_template('registro.html')

@@ -13,8 +13,6 @@
   <p>Sinopsis: {{movie.sinopsis}}</p>
   <p>Categorías: {{movie.categoria}}</p>
   <p>Precio: {{movie.precio~'€'}}</p>
-  <form action={{ref}}>
-    <button type="submit" name="atras">Atrás</button>
-  </form>
+  <button type="submit" name="atras" onclick="history.back()">Atrás</button>
 </div>
 {% endblock %}
