@@ -112,12 +112,11 @@ def registro():
             "fechanacimiento": request.form['fechanacimiento'],
             "contrasena": hashlib.md5(request.form['contrasena'].encode()).hexdigest()
         }
-
-        datos_file = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), encoding="utf-8").write()
-        json.dump(datos, datos_file)
+        with open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), 'w') as datos_file:
+            json.dump(datos, datos_file)
         datos_file.close()
-        historial_file = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'), encoding="utf-8").write()
-        json.dump(historial, historial_file)
+        with open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'), 'w') as historial_file:
+            json.dump(historial, historial_file)
         historial_file.close()
 
         session['usuario'] = request.form['nombre']
