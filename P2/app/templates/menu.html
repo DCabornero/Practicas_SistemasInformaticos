@@ -7,12 +7,31 @@
     <title>Menu</title>
   </head>
   <body>
+    {% if sesion %}
+    <br>
+      <a class="menubutton" href={{url_for('index')}}>
+        Página Principal
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('index')}}>
+        Carrito
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('index')}}>
+        Historial
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('logout')}}>
+        Desconectar
+      </a>
+    <p id="bienvenido">¡Bienvenido, {{ sesion }}!</p>
+    {% else %}
     <br>
     <a class="menubutton" href={{url_for('index')}}>
       Página Principal
     </a>
     <br><br>
-    <a class="menubutton" href={{url_for('index')}}>
+    <a class="menubutton" href={{url_for('login')}}>
       Login
     </a>
     <br><br>
@@ -23,5 +42,6 @@
     <a class="menubutton" href={{url_for('index')}}>
       Simular Login
     </a>
+    {% endif %}
   </body>
 </html>

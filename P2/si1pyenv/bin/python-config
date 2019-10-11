@@ -1,4 +1,4 @@
-#!/home/alumnos/e356632/example-web-v4/si1pyenv/bin/python
+#!/home/dcabornero/Escritorio/Universidad/SI/Practicas_SistemasInformaticos/P2/si1pyenv/bin/python
 
 import sys
 import getopt

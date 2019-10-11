@@ -14,5 +14,8 @@
   <p>Categorías: {{movie.categoria}}</p>
   <p>Precio: {{movie.precio~'€'}}</p>
   <button type="submit" name="atras" onclick="history.back()">Atrás</button>
+  {% if sesion %}
+  <button type="submit" name="carrito">Añadir al carrito</button>
+  {% endif %}
 </div>
 {% endblock %}

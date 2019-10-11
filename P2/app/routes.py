@@ -18,24 +18,26 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # doc sobre request object en http://flask.pocoo.org/docs/1.0/api/#incoming-request-data
-    if 'username' in request.form:
-        # aqui se deberia validar con fichero .dat del usuario
-        if request.form['username'] == 'pp':
-            session['usuario'] = request.form['username']
-            session.modified=True
-            # se puede usar request.referrer para volver a la pagina desde la que se hizo login
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        if request.form['contrasena'] == '':
+            return render_template('login.html', errorvacio=True)
+        if request.form['email'] == '':
+            return render_template('login.html', errorvacio=True)
+        try:
+            user_data = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), encoding="utf-8").read()
+        except:
+            return render_template('login.html', erroruser=True)
+        user = json.loads(user_data)
+        password = hashlib.md5(request.form['contrasena'].encode()).hexdigest()
+        if password == user['contrasena']:
+            session['usuario'] = user['nombre']
+            session['id'] = user['email']
+            session.modified = True
             return redirect(url_for('index'))
         else:
-            # aqui se le puede pasar como argumento un mensaje de login invalido
-            return render_template('login.html', title = "Sign In")
-    else:
-        # se puede guardar la pagina desde la que se invoca
-        session['url_origen']=request.referrer
-        session.modified=True
-        # print a error.log de Apache si se ejecuta bajo mod_wsgi
-        print (request.referrer, file=sys.stderr)
-        return render_template('login.html', title = "Sign In")
+            return render_template('login.html', errorpass=True)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -44,7 +46,10 @@ def logout():
 
 @app.route('/iframes/<name>')
 def iframes(name):
-    return render_template(name)
+    if 'usuario' in session:
+        return render_template(name, sesion=session['usuario'])
+    else:
+        return render_template(name)
 
 @app.route('/resultados')
 def resultados():
@@ -67,7 +72,10 @@ def detalle(id):
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
     movies=list(filter(lambda film: str(film['id']) == id, movies))
-    return render_template('detalle.html', movie=movies[0])
+    if 'usuario' in session:
+        return render_template('detalle.html', movie=movies[0], sesion=session['usuario'])
+    else:
+        return render_template('detalle.html', movie=movies[0])
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -102,6 +110,18 @@ def registro():
             "email": request.form['email'],
             "tarjeta": request.form['tarjeta'],
             "fechanacimiento": request.form['fechanacimiento'],
-            "contrasena": hashlib.md5(request.form['contrasena']).hexdigest(),
+            "contrasena": hashlib.md5(request.form['contrasena'].encode()).hexdigest()
         }
-        return render_template('registro.html')
+
+        datos_file = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), encoding="utf-8").write()
+        json.dump(datos, datos_file)
+        datos_file.close()
+        historial_file = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'), encoding="utf-8").write()
+        json.dump(historial, historial_file)
+        historial_file.close()
+
+        session['usuario'] = request.form['nombre']
+        session['id'] = request.form['email']
+        session.modified=True
+
+        return redirect(url_for('index'))

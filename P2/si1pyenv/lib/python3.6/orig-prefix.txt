@@ -1,1 +1,1 @@
-/usr
+/home/dcabornero/anaconda3
