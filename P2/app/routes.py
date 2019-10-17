@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import hashlib
+import random
 
 @app.route('/')
 @app.route('/index')
@@ -82,20 +83,6 @@ def registro():
     if request.method == 'GET':
         return render_template('registro.html')
     elif request.method == 'POST':
-        if request.form['contrasena'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['nombre'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['apellido'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['email'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['tarjeta'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['fechanacimiento'] == '':
-            return render_template('registro.html', errorvacio=True)
-        if request.form['contrasena'] != request.form['contrasenaconf']:
-            return render_template('registro.html', errorcont=True)
         if os.path.isdir(os.path.join(app.root_path, 'usuarios/'+request.form['email'])):
             return render_template('registro.html', errorex=True)
         os.mkdir(os.path.join(app.root_path, 'usuarios/'+request.form['email']))
@@ -110,7 +97,8 @@ def registro():
             "email": request.form['email'],
             "tarjeta": request.form['tarjeta'],
             "fechanacimiento": request.form['fechanacimiento'],
-            "contrasena": hashlib.md5(request.form['contrasena'].encode()).hexdigest()
+            "contrasena": hashlib.md5(request.form['contrasena'].encode()).hexdigest(),
+            "saldo": random.randint(0,100)
         }
         with open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), 'w') as datos_file:
             json.dump(datos, datos_file)
@@ -124,3 +112,16 @@ def registro():
         session.modified=True
 
         return redirect(url_for('index'))
+
+@app.route('/carrito', methods=['GET', 'POST'])
+def carrito():
+    catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
+    catalogue = json.loads(catalogue_data)
+    movies=catalogue['peliculas']
+    carr = []
+    auxsession = {"1": 2, "3": 1}
+    for id in auxsession: # Hay que poner session['carrito']
+        data = list(filter(lambda film: str(film['id']) == id, movies))[0]
+        data.cantidad = auxsession[id]
+        carr.append(data)
+    return render_template('carrito.html', carr=carr)

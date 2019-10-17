@@ -1,0 +1,29 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+<h1>Carrito</h1>
+  <div id="overflow">
+    <table>
+      <thead>
+        <tr>
+          <th>Portada</th>
+          <th>Título</th>
+          <th>Director</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in movies %}
+        <tr>
+          <td><a href={{'detalle/'~item.id}}><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
+          <td><a href={{'detalle/'~item.id}}>{{item.titulo}}</a></td>
+          <td>{{item.director}}</td>
+          <td>{{item.precio~'€'}}</td>
+          <td>{{item.cantidad}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

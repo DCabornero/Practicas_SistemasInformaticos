@@ -1,9 +1,9 @@
 {% extends "baseNB.html" %}
 
 {% block content %}
-
+    <script src={{url_for('static', filename='javascript/registro.js')}} charset="utf-8"></script>
     <h1>Registro</h1>
-    <form action={{url_for('registro')}} method='post'>
+    <form id='regform' action={{url_for('registro')}} method='post' onsubmit="return check();">
       Nombre:
       <input type="text" name="nombre">
       Apellidos:
@@ -29,20 +29,15 @@
       Repita la contraseña:
       <input type="password" name="contrasenaconf">
       <br><br>
-      {% if errorcont %}
-        <p class="error"> Las contraseñas no coinciden </p>
-      {% endif %}
       Intereses:
       <br><br>
       Tarjeta de crédito:
       <input type="text" name="tarjeta">
       <br><br>
       <button id="regbutton">Registrarse</button>
-      {% if errorvacio %}
-        <p class="err"> Rellene todos los campos </p>
-      {% endif %}
+      <p class="err" id="notreqerr"></p>
       {% if errorex %}
-        <p class="err"> Ya existe una cuenta con ese email </p>
+        <p class="err">Ya hay un usuario registrado con ese email.</p>
       {% endif %}
     </form>
 
