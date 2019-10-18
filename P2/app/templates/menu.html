@@ -7,15 +7,15 @@
     <title>Menu</title>
   </head>
   <body>
-    {% if sesion %}
     <br>
-      <a class="menubutton" href={{url_for('index')}}>
-        Página Principal
-      </a>
-      <br><br>
-      <a class="menubutton" href={{url_for('index')}}>
-        Carrito
-      </a>
+    <a class="menubutton" href={{url_for('index')}}>
+      Página Principal
+    </a>
+    <br><br>
+    <a class="menubutton" href={{url_for('carrito')}}>
+      Carrito
+    </a>
+    {% if sesion %}
       <br><br>
       <a class="menubutton" href={{url_for('index')}}>
         Historial
@@ -24,24 +24,16 @@
       <a class="menubutton" href={{url_for('logout')}}>
         Desconectar
       </a>
-    <p id="bienvenido">¡Bienvenido, {{ sesion }}!</p>
+      <p id="bienvenido">¡Bienvenido, {{ sesion }}!</p>
     {% else %}
-    <br>
-    <a class="menubutton" href={{url_for('index')}}>
-      Página Principal
-    </a>
-    <br><br>
-    <a class="menubutton" href={{url_for('login')}}>
-      Login
-    </a>
-    <br><br>
-    <a class="menubutton" href={{url_for('registro')}}>
-      Registro
-    </a>
-    <br><br>
-    <a class="menubutton" href={{url_for('carrito')}}>
-      Carrito
-    </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('login')}}>
+        Login
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('registro')}}>
+        Registro
+      </a>
     {% endif %}
   </body>
 </html>

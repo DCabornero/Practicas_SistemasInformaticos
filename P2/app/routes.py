@@ -43,6 +43,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('usuario', None)
+    session.pop('carrito', None)
     return redirect(url_for('index'))
 
 @app.route('/iframes/<name>')
@@ -73,10 +74,15 @@ def detalle(id):
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
     movies=list(filter(lambda film: str(film['id']) == id, movies))
-    if 'usuario' in session:
-        return render_template('detalle.html', movie=movies[0], sesion=session['usuario'])
+    if 'anadir' in request.args:
+        if id in session['carrito']:
+            session['carrito'][id] = session['carrito'][id] + 1
+        else:
+            session['carrito'][id] = 1
+        added = True
     else:
-        return render_template('detalle.html', movie=movies[0])
+        added = False
+    return render_template('detalle.html', movie=movies[0], added=added)
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -119,9 +125,16 @@ def carrito():
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
     carr = []
-    auxsession = {"1": 2, "3": 1}
-    for id in auxsession: # Hay que poner session['carrito']
+    if not('carrito' in session):
+        session['carrito'] = {}
+    if 'id' in request.args:
+        id = request.args['id']
+        if session['carrito'][id]==1:
+            session['carrito'].pop(id)
+        else:
+            session['carrito'][id] = session['carrito'][id] - 1
+    for id in session['carrito']:
         data = list(filter(lambda film: str(film['id']) == id, movies))[0]
-        data.cantidad = auxsession[id]
+        data['cantidad'] = session['carrito'][id]
         carr.append(data)
     return render_template('carrito.html', carr=carr)
