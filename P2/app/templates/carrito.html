@@ -14,6 +14,7 @@
             <th>Director</th>
             <th>Precio</th>
             <th>Cantidad</th>
+            <th>Añadir</th>
             <th>Eliminar</th>
           </tr>
         </thead>
@@ -26,9 +27,15 @@
             <td>{{item.precio~'€'}}</td>
             <td>{{item.cantidad}}</td>
             <td>
-              <form action="{{url_for('carrito')}}" method="get">
-                <input type="hidden" name="id" value={{item.id}}>
-                <button type="submit" name="remove">Eliminar unidad</button>
+              <form action="{{url_for('carrito')}}" method="post">
+                <input type="hidden" name="idAdd" value={{item.id}}>
+                <button type="submit">Añadir unidad</button>
+              </form>
+            </td>
+            <td>
+              <form action="{{url_for('carrito')}}" method="post">
+                <input type="hidden" name="idRemove" value={{item.id}}>
+                <button type="submit">Eliminar unidad</button>
               </form>
             </td>
           </tr>
@@ -37,4 +44,14 @@
       </table>
     {% endif %}
   </div>
+  {% if carr|length != 0 %}
+    <p>Precio total: {{suma}} €</p>
+    <form action="{{url_for('carrito')}}" method="post">
+      <button type="submit" name="buttonCarrito">Comprar</button>
+    </form>
+  {% endif %}
+  <br><br>
+  {% if msg %}
+    <p>{{msg}}</p>
+  {% endif %}
 {% endblock %}

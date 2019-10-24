@@ -1,0 +1,44 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+<h1>Historial</h1>
+  <div id="overflow">
+    {% if hist|length == 0 %}
+      <p> No se han realizado pedidos en esta cuenta. </p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Precio</th>
+            <th>Detalles</th>
+            <th class="toggable" hidden></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in hist %}
+          <tr>
+            <td>{{item.fecha}}</td>
+            <td>{{item.suma}}</a></td>
+            <td>
+              <button type="button" onclick="mostrarDetalle();"></button>
+            </td>
+            <td>{{item.precio~'€'}}</td>
+            <td>{{item.cantidad}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  {% if carr|length != 0 %}
+    <p>Precio total: {{suma}} €</p>
+    <form action="{{url_for('carrito')}}" method="post">
+      <button type="submit" name="buttonCarrito">Comprar</button>
+    </form>
+  {% endif %}
+  <br><br>
+  {% if msg %}
+    <p>{{msg}}</p>
+  {% endif %}
+{% endblock %}
