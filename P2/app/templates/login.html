@@ -4,9 +4,13 @@
     <h1>Login</h1>
     <form action="" method="post" novalidate>
         <label><b>Email</b></label>
-        <input name="email" type="text" placeholder="Enter username">
+        {% if usuario %}
+          <input name="email" type="text" placeholder="Email" value={{usuario}}>
+        {% else %}
+          <input name="email" type="text" placeholder="Email">
+        {% endif %}
         <label><b>Contraseña</b></label>
-        <input name="contrasena" type="password" placeholder="Enter password">
+        <input name="contrasena" type="password" placeholder="Contraseña">
         <input type="submit" value="Login">
     </form>
     {% if errorvacio %}

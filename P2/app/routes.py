@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import app
-from flask import render_template, request, url_for, redirect, session
+from flask import render_template, request, url_for, redirect, session, make_response
 import json
 import os
 import sys
@@ -20,17 +20,20 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    usuario = None
+    if 'usuario' in request.cookies:
+        usuario = request.cookies['usuario']
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', usuario=usuario)
     elif request.method == 'POST':
         if request.form['contrasena'] == '':
-            return render_template('login.html', errorvacio=True)
+            return render_template('login.html', errorvacio=True, usuario=usuario)
         if request.form['email'] == '':
-            return render_template('login.html', errorvacio=True)
+            return render_template('login.html', errorvacio=True, usuario=usuario)
         try:
             user_data = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), encoding="utf-8").read()
         except:
-            return render_template('login.html', erroruser=True)
+            return render_template('login.html', erroruser=True, usuario=usuario)
         user = json.loads(user_data)
         password = hashlib.md5(request.form['contrasena'].encode()).hexdigest()
         if password == user['contrasena']:
@@ -39,13 +42,15 @@ def login():
             session.modified = True
             return redirect(url_for('index'))
         else:
-            return render_template('login.html', errorpass=True)
+            return render_template('login.html', errorpass=True, usuario=usuario)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    response = make_response(redirect(url_for('index')))
+    response.set_cookie('usuario', session['id'])
     session.pop('usuario', None)
     session.pop('carrito', None)
-    return redirect(url_for('index'))
+    return response
 
 @app.route('/iframes/<name>')
 def iframes(name):
@@ -186,6 +191,6 @@ def historial():
     historial = json.loads(historial_file)
     return render_template("historial.html", hist=historial['pedidos'])
 
-@app.route('/iframes/visitors', methods=['GET'])
+@app.route('/visitors', methods=['GET'])
 def visitors():
     return "Visitantes en línea: " + str(random.randint(0,100))
