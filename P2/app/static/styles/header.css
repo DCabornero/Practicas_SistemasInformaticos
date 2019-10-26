@@ -21,3 +21,14 @@ h1 {
   float: left;
   height: 100%;
 }
+
+#visitantes{
+  text-align: center;
+  float: right;
+  margin-top: 5%;
+  margin-right: 2.5%;
+  height: 100%;
+  color: white;
+  font-family: impact, sans-serif;
+  font-size: 20px;
+}

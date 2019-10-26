@@ -1,6 +1,7 @@
 {% extends "baseNB.html" %}
 
 {% block content %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
     <script src={{url_for('static', filename='javascript/registro.js')}} charset="utf-8"></script>
     <h1>Registro</h1>
     <form id='regform' action={{url_for('registro')}} method='post' onsubmit="return check();">
@@ -24,7 +25,9 @@
       <input type="text" name="email">
       <br><br>
       Contraseña:
-      <input type="password" name="contrasena">
+      <input id="campocontrasena" type="password" name="contrasena">
+      <br><br>
+      Nivel de seguridad: <span id="seguridad"></span>
       <br><br>
       Repita la contraseña:
       <input type="password" name="contrasenaconf">

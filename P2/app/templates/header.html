@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      function actualizaVisitas(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200){
+            document.getElementById("visitantes").innerText = xhttp.responseText;
+          }
+        }
+        /*var url = {{url_for('visitors')}}
+        console.log(url)*/
+        xhttp.open("GET", 'visitors', true);
+        xhttp.send();
+      }
+
+      $(document).ready(function(){
+        actualizaVisitas();
+        setInterval(actualizaVisitas, 3000);
+      })
+    </script>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles/header.css') }}/>
     <meta charset="utf-8">
     <base target="_parent">
@@ -15,6 +35,8 @@
       </div>
       <div id="eslogan">
         <h1>DVDs & BlueRays</h1>
+      </div>
+      <div id="visitantes">
       </div>
     </header>
   </body>

@@ -185,3 +185,7 @@ def historial():
     historial_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/historial.json'), encoding="utf-8").read()
     historial = json.loads(historial_file)
     return render_template("historial.html", hist=historial['pedidos'])
+
+@app.route('/iframes/visitors', methods=['GET'])
+def visitors():
+    return "Visitantes en línea: " + str(random.randint(0,100))
