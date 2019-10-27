@@ -32,8 +32,14 @@
               <th>Cantidad</th>
               <th>Precio por película</th>
             </thead>
+            {% for film in item.carrito %}
+            <tbody class="detailsHist body{{item.id}}">
+              <td>{{film.titulo}}</td>
+              <td>{{film.cantidad}}</td>
+              <td>{{film.precio}}</td>
+            </tbody>
+            {% endfor %}
           </tr>
-
         {% endfor %}
         </tbody>
       </table>
