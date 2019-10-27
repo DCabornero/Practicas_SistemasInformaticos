@@ -1,6 +1,8 @@
 {% extends "baseNB.html" %}
 
 {% block content %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script src={{url_for('static', filename='javascript/historial.js')}} charset="utf-8"></script>
 <h1>Historial</h1>
   <div id="overflow">
     {% if hist|length == 0 %}
@@ -19,13 +21,19 @@
         {% for item in hist %}
           <tr>
             <td>{{item.fecha}}</td>
-            <td>{{item.suma}}</a></td>
+            <td>{{item.total}}</a></td>
             <td>
-              <button type="button" onclick="mostrarDetalle();"></button>
+              <button class="show" onclick="toggler({{item.id}});">Mostrar detalles</button>
             </td>
-            <td>{{item.precio~'€'}}</td>
-            <td>{{item.cantidad}}</td>
           </tr>
+          <tr>
+            <thead class="detailsHist" id="{{item.id}}">
+              <th>Película</th>
+              <th>Cantidad</th>
+              <th>Precio por película</th>
+            </thead>
+          </tr>
+
         {% endfor %}
         </tbody>
       </table>

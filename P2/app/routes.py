@@ -173,7 +173,7 @@ def carrito():
                 fecha = date.today()
                 historial_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/historial.json'), encoding="utf-8").read()
                 historial = json.loads(historial_file)
-                compra = {"carrito":carr, "fecha":fecha.strftime('%d/%m/%Y'), "total":suma}
+                compra = {"carrito":carr, "fecha":fecha.strftime('%d/%m/%Y'), "total":suma, "id":len(historial['pedidos'])}
                 historial['pedidos'].append(compra)
                 with open(os.path.join(app.root_path, 'usuarios/'+session['id']+'/historial.json'), mode='w', encoding='utf-8') as hist_file:
                     json.dump(historial, hist_file, ensure_ascii=False)

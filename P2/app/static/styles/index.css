@@ -183,3 +183,7 @@ footer {
   margin-right: 10%;
   margin-top: 5%;
 }
+
+.detailsHist {
+  display: none;
+}
