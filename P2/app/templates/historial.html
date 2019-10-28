@@ -21,9 +21,9 @@
         {% for item in hist %}
           <tr>
             <td>{{item.fecha}}</td>
-            <td>{{item.total}}</a></td>
+            <td>{{item.total}} €</td>
             <td>
-              <button class="show" onclick="toggler({{item.id}});">Mostrar detalles</button>
+              <button class="show" id="detalle{{item.id}}" onclick="toggler({{item.id}});">Mostrar detalles</button>
             </td>
           </tr>
           <tr>
@@ -36,9 +36,9 @@
                 </thead>
                 {% for film in item.carrito %}
                 <tbody class="detailsHist body{{item.id}}">
-                  <td>{{film.titulo}}</td>
+                  <td><a href="{{url_for('detalle',id=film.id)}}">{{film.titulo}}</a></td>
                   <td>{{film.cantidad}}</td>
-                  <td>{{film.precio}}</td>
+                  <td>{{film.precio}} €</td>
                 </tbody>
                 {% endfor %}
               </table>
@@ -49,11 +49,13 @@
       </table>
     {% endif %}
   </div>
-  <br><br>
   {% if msg %}
     <p>{{msg}}</p>
   {% endif %}
-  <form action="{{url_for(historial)}}" method="post">
-    <button type="submit" name="anadir">Añadir dinero (100 €)</button>
-  </form>
+  <div>
+    <p>Saldo actual: {{saldo}} €</p>
+    <form action="{{url_for('historial')}}" method="post">
+      <button type="submit" name="anadir">Añadir dinero (10 €)</button>
+    </form>
+  </div>
 {% endblock %}

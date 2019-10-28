@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import app
-from flask import render_template, request, url_for, redirect, session, make_response
+from flask import render_template, request, url_for, redirect, session, make_response, flash
 import json
 import os
 import sys
@@ -50,6 +50,7 @@ def logout():
     response.set_cookie('usuario', session['id'])
     session.pop('usuario', None)
     session.pop('carrito', None)
+    session.modified = True
     return response
 
 @app.route('/iframes/<name>')
@@ -80,12 +81,18 @@ def detalle(id):
     catalogue = json.loads(catalogue_data)
     movies=catalogue['peliculas']
     movies=list(filter(lambda film: str(film['id']) == id, movies))
-    if 'anadir' in request.args:
-        if id in session['carrito']:
-            session['carrito'][id] = session['carrito'][id] + 1
+    if request.method == 'POST':
+        if 'anadir' in request.form:
+            if 'carrito' not in session:
+                session['carrito'] = {}
+            if id in session['carrito']:
+                session['carrito'][id] = session['carrito'][id] + 1
+            else:
+                session['carrito'][id] = 1
+            session.modified = True
+            added = True
         else:
-            session['carrito'][id] = 1
-        added = True
+            added = False
     else:
         added = False
     return render_template('detalle.html', movie=movies[0], added=added)
@@ -135,6 +142,7 @@ def carrito():
     suma = 0
     if not('carrito' in session):
         session['carrito'] = {}
+        session.modified = True
     for id in session['carrito']:
         data = list(filter(lambda film: str(film['id']) == id, movies))[0]
         data['cantidad'] = session['carrito'][id]
@@ -150,13 +158,16 @@ def carrito():
         if 'idAdd' in request.form:
             id = request.form['idAdd']
             session['carrito'][id] += 1
+            session.modified = True
             return redirect(url_for('carrito'))
         if 'idRemove' in request.form:
             id = request.form['idRemove']
             if session['carrito'][id]==1:
                 session['carrito'].pop(id)
+                session.modified = True
             else:
                 session['carrito'][id] -= 1
+                session.modified = True
             return redirect(url_for('carrito'))
         if 'usuario' in session:
             datos_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/datos.json'), encoding="utf-8").read()
@@ -167,6 +178,7 @@ def carrito():
                 datos['saldo'] -= suma
                 datos['saldo'] = round(datos['saldo'], 2)
                 session['carrito'] = {}
+                session.modified = True
                 with open(os.path.join(app.root_path, 'usuarios/'+session['id']+'/datos.json'), mode='w', encoding='utf-8') as datos_file_output:
                     json.dump(datos, datos_file_output, ensure_ascii=False)
                 datos_file_output.close()
@@ -185,11 +197,24 @@ def carrito():
 
 @app.route('/historial', methods=['GET', 'POST'])
 def historial():
-    if 'usuario' not in session:
-        return redirect(url_for('login'))
-    historial_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/historial.json'), encoding="utf-8").read()
-    historial = json.loads(historial_file)
-    return render_template("historial.html", hist=historial['pedidos'])
+    if request.method == 'GET':
+        if 'usuario' not in session:
+            return redirect(url_for('login'))
+        historial_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/historial.json'), encoding="utf-8").read()
+        historial = json.loads(historial_file)
+        datos_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/datos.json'), encoding="utf-8").read()
+        datos = json.loads(datos_file)
+        return render_template("historial.html", hist=historial['pedidos'], saldo=datos['saldo'])
+
+    if request.method == 'POST':
+        if 'anadir' in request.form:
+            datos_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/datos.json'), encoding="utf-8").read()
+            datos = json.loads(datos_file)
+            datos['saldo'] += 10
+            with open(os.path.join(app.root_path, 'usuarios/'+session['id']+'/datos.json'), mode='w', encoding='utf-8') as dat_file:
+                json.dump(datos, dat_file, ensure_ascii=False)
+            dat_file.close()
+        return redirect(url_for('historial'))
 
 @app.route('/visitors', methods=['GET'])
 def visitors():
