@@ -6,13 +6,16 @@ iframe {
 
 table {
   border-collapse: collapse;
+  margin-top: auto;
+  margin-bottom: auto;
   margin-left: auto;
   margin-right: auto;
+  width: 85%;
 }
 
 th, td {
   text-align: center;
-  border-bottom: 1px solid grey;
+  border: 1px solid grey;
 }
 
 td {
@@ -186,4 +189,9 @@ footer {
 
 .detailsHist {
   display: none;
+}
+
+.entireTable{
+  width: 100%;
+  background: #e1e1e3;
 }

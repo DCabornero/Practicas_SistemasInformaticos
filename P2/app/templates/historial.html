@@ -27,32 +27,33 @@
             </td>
           </tr>
           <tr>
-            <thead class="detailsHist" id="{{item.id}}">
-              <th>Película</th>
-              <th>Cantidad</th>
-              <th>Precio por película</th>
-            </thead>
-            {% for film in item.carrito %}
-            <tbody class="detailsHist body{{item.id}}">
-              <td>{{film.titulo}}</td>
-              <td>{{film.cantidad}}</td>
-              <td>{{film.precio}}</td>
-            </tbody>
-            {% endfor %}
+            <td class="detailsHist body{{item.id}}" colspan=4>
+              <table class="entireTable">
+                <thead class="detailsHist body{{item.id}}">
+                  <th>Película</th>
+                  <th>Cantidad</th>
+                  <th>Precio por película</th>
+                </thead>
+                {% for film in item.carrito %}
+                <tbody class="detailsHist body{{item.id}}">
+                  <td>{{film.titulo}}</td>
+                  <td>{{film.cantidad}}</td>
+                  <td>{{film.precio}}</td>
+                </tbody>
+                {% endfor %}
+              </table>
+            </td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
     {% endif %}
   </div>
-  {% if carr|length != 0 %}
-    <p>Precio total: {{suma}} €</p>
-    <form action="{{url_for('carrito')}}" method="post">
-      <button type="submit" name="buttonCarrito">Comprar</button>
-    </form>
-  {% endif %}
   <br><br>
   {% if msg %}
     <p>{{msg}}</p>
   {% endif %}
+  <form action="{{url_for(historial)}}" method="post">
+    <button type="submit" name="anadir">Añadir dinero (100 €)</button>
+  </form>
 {% endblock %}
