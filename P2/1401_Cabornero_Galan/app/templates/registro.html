@@ -1,0 +1,45 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+    <script src={{url_for('static', filename='javascript/registro.js')}} charset="utf-8"></script>
+    <h1>Registro</h1>
+    <form id='regform' action={{url_for('registro')}} method='post' onsubmit="return check();">
+      Nombre:
+      <input type="text" name="nombre">
+      Apellidos:
+      <input type="text" name="apellido">
+      <br><br>
+      Género:
+      <input type="radio" name="genero" value="masculino" checked>
+      Masculino
+      <input type="radio" name="genero" value="femenino">
+      Femenino
+      <input type="radio" name="genero" value="otro">
+      Otro
+      <br><br>
+      Fecha de nacimiento:
+      <input type="date" name="fechanacimiento" value="">
+      <br><br>
+      Email (Servirá para el login):
+      <input type="text" name="email">
+      <br><br>
+      Contraseña:
+      <input id="campocontrasena" type="password" name="contrasena">
+      <br><br>
+      Nivel de seguridad: <span id="seguridad"></span>
+      <br><br>
+      Repita la contraseña:
+      <input type="password" name="contrasenaconf">
+      <br><br>
+      Tarjeta de crédito:
+      <input type="text" name="tarjeta">
+      <br><br>
+      <button id="regbutton">Registrarse</button>
+      <p class="err" id="notreqerr"></p>
+      {% if errorex %}
+        <p class="err">Ya hay un usuario registrado con ese email.</p>
+      {% endif %}
+    </form>
+
+{% endblock %}

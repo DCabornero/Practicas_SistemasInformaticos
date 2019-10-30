@@ -1,0 +1,57 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+<h1>Carrito</h1>
+  <div id="overflow">
+    {% if carr|length == 0 %}
+      <p> No hay productos en el carrito actualmente. </p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th>Portada</th>
+            <th>Título</th>
+            <th>Director</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Añadir</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in carr %}
+          <tr>
+            <td><a href={{'detalle/'~item.id}}><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
+            <td><a href={{'detalle/'~item.id}}>{{item.titulo}}</a></td>
+            <td>{{item.director}}</td>
+            <td>{{item.precio~'€'}}</td>
+            <td>{{item.cantidad}}</td>
+            <td>
+              <form action="{{url_for('carrito')}}" method="post">
+                <input type="hidden" name="idAdd" value={{item.id}}>
+                <button type="submit">Añadir unidad</button>
+              </form>
+            </td>
+            <td>
+              <form action="{{url_for('carrito')}}" method="post">
+                <input type="hidden" name="idRemove" value={{item.id}}>
+                <button type="submit">Eliminar unidad</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  {% if carr|length != 0 %}
+    <p>Precio total: {{suma}} €</p>
+    <form action="{{url_for('carrito')}}" method="post">
+      <button type="submit" name="buttonCarrito">Comprar</button>
+    </form>
+  {% endif %}
+  <br><br>
+  {% if msg %}
+    <p>{{msg}}</p>
+  {% endif %}
+{% endblock %}

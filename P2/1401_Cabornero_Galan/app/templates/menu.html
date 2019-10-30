@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles/menu.css') }}/>
+    <base target="_parent">
+    <title>Menu</title>
+  </head>
+  <body>
+    <br>
+    <a class="menubutton" href={{url_for('index')}}>
+      Página Principal
+    </a>
+    <br><br>
+    <a class="menubutton" href={{url_for('carrito')}}>
+      Carrito
+    </a>
+    {% if sesion %}
+      <br><br>
+      <a class="menubutton" href={{url_for('historial')}}>
+        Historial
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('logout')}}>
+        Desconectar
+      </a>
+      <p id="bienvenido">¡Bienvenido, {{ sesion }}!</p>
+    {% else %}
+      <br><br>
+      <a class="menubutton" href={{url_for('login')}}>
+        Login
+      </a>
+      <br><br>
+      <a class="menubutton" href={{url_for('registro')}}>
+        Registro
+      </a>
+    {% endif %}
+  </body>
+</html>
