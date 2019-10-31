@@ -1,0 +1,7 @@
+Foreign key and primary key in ActorMovies
+Drop column numpartitipation
+Drop column extrainformation in movielanguages
+Join inventory and products
+Primary key in order_id
+Foreign key in orders customer id
+Primary key orderid+prodid in orderdetails
