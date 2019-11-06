@@ -1,5 +1,12 @@
-ALTER TABLE imdb_directormovies DROP COLUMN numpartitipation;
-ALTER TABLE imdb_movielanguages DROP COLUMN extrainformation;
+ALTER TABLE customers ADD COLUMN saldo decimal DEFAULT 0;
+ALTER TABLE imdb_actormovies ADD PRIMARY KEY (actorid, movieid);
+ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES imdb_actors (actorid);
+ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES imdb_movies (movieid);
+
+ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_orderid_fkey FOREIGN KEY (orderid) REFERENCES orders (orderid);
+ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_prod_id_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id);
+--SELECT orderid, prod_id, price, SUM(quantity) AS quantity FROM orderdetail GROUP BY orderid, prod_id, price; Falta sustituirlo
+--ALTER TABLE orderdetail ADD PRIMARY KEY (orderid, prod_id);
 
 CREATE SEQUENCE languages_languageid_seq START 1;
 
