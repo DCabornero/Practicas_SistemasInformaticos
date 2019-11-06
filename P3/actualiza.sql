@@ -5,8 +5,12 @@ ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIG
 
 ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_orderid_fkey FOREIGN KEY (orderid) REFERENCES orders (orderid);
 ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_prod_id_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id);
---SELECT orderid, prod_id, price, SUM(quantity) AS quantity FROM orderdetail GROUP BY orderid, prod_id, price; Falta sustituirlo
---ALTER TABLE orderdetail ADD PRIMARY KEY (orderid, prod_id);
+
+CREATE TABLE orderdetailaux AS SELECT orderid, prod_id, SUM(quantity) AS quantity FROM orderdetail GROUP BY orderid, prod_id HAVING COUNT(concat(prod_id,'-',orderid))>1;
+DELETE FROM orderdetail WHERE EXISTS (SELECT * FROM orderdetailaux AS oda WHERE oda.orderid = orderdetail.orderid AND oda.prod_id = orderdetail.prod_id);
+INSERT INTO orderdetail(orderid, prod_id, quantity) SELECT * FROM orderdetailaux;
+DROP TABLE orderdetailaux;
+ALTER TABLE orderdetail ADD PRIMARY KEY (orderid, prod_id);
 
 CREATE SEQUENCE languages_languageid_seq START 1;
 
