@@ -12,6 +12,8 @@ INSERT INTO orderdetail(orderid, prod_id, quantity) SELECT * FROM orderdetailaux
 DROP TABLE orderdetailaux;
 ALTER TABLE orderdetail ADD PRIMARY KEY (orderid, prod_id);
 
+UPDATE imdb_movies SET year = '1998' WHERE year = '1998-1999';
+
 CREATE SEQUENCE languages_languageid_seq START 1;
 
 CREATE TABLE languages(
