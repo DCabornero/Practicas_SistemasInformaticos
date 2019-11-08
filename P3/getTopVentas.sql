@@ -1,0 +1,8 @@
+CREATE OR REPLACE FUNCTION getTopVentas(anio INTEGER)
+  RETURNS TABLE(
+    anio INTEGER,
+
+  )
+  AS $$
+  BEGIN
+  END; $$ LANGUAGE PLPGSQL;

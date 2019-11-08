@@ -3,6 +3,14 @@ ALTER TABLE imdb_actormovies ADD PRIMARY KEY (actorid, movieid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES imdb_actors (actorid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES imdb_movies (movieid);
 
+ALTER TABLE products ADD COLUMN stock NUMERIC DEFAULT 0;
+ALTER TABLE products ADD COLUMN sales NUMERIC DEFAULT 0;
+UPDATE products SET sales = inventory.sales, stock = inventory.stock FROM inventory WHERE products.prod_id = inventory.prod_id;
+
+UPDATE products SET sales = calc.sales FROM (
+  SELECT prod_id, sum(quantity) AS sales FROM orderdetail GROUP BY prod_id
+) AS calc WHERE calc.prod_id = products.prod_id;
+
 ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_orderid_fkey FOREIGN KEY (orderid) REFERENCES orders (orderid);
 ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_prod_id_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id);
 
