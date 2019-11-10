@@ -66,3 +66,5 @@ ALTER TABLE imdb_moviegenres ADD CONSTRAINT imdb_moviegenres_genreid_fkey FOREIG
 UPDATE imdb_moviegenres SET genreid = genretable.genreid FROM genres genretable WHERE genre = genretable.genrename;
 ALTER TABLE imdb_moviegenres DROP COLUMN genre;
 ALTER TABLE imdb_moviegenres ADD CONSTRAINT imdb_moviegenres_pkey PRIMARY KEY (movieid, genreid);
+
+--Falta poner la foreign key de customers en orders
