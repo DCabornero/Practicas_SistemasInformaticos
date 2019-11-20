@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DVDs & BlueRays</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles/index.css') }}/>
+    <link rel="icon" type="image/png" href={{ url_for('static', filename='images/favicon.png') }}>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <iframe src={{url_for('iframes', name='header.html')}}></iframe>
+      </header>
+
+      <div id="central">
+        <nav>
+          <iframe src={{url_for('iframes', name='menu.html')}}></iframe>
+        </nav>
+
+        <div id="contentpart">
+          {%  block content %} {% endblock %}
+        </div>
+
+        <div id="busqueda">
+          <h1>Búsqueda</h1>
+          <form action={{url_for('resultados')}} method="get">
+            <input type="text" placeholder="Introduce el texto a buscar..." name="searchparam" size="25"><br><br>
+            <input type="radio" name="textchoice" value="actdir">
+            Actor/Director
+            <input type="radio" name="textchoice" value="titulo" checked>
+            Título
+            <br><br>
+            <select id="generos" name="genero">
+              <option class="option" value="cualquiera">Todos</option>
+              <option class="option" value="thriller">Thriller</option>
+              <option class="option" value="acción">Acción</option>
+              <option class="option" value="fantasía">Fantasía</option>
+              <option class="option" value="ciencia ficción">Ciencia Ficción</option>
+              <option class="option" value="animación">Animación</option>
+              <option class="option" value="infantil">Infantil</option>
+            </select>
+            <br><br>
+            <button id="searchbutton">
+              Buscar
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <footer>
+        <iframe src="{{url_for('iframes', name='footer.html')}}"></iframe>
+      </footer>
+    </div>
+  </body>
+</html>

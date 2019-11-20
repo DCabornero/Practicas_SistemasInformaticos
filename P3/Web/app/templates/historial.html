@@ -1,0 +1,61 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script src={{url_for('static', filename='javascript/historial.js')}} charset="utf-8"></script>
+<h1>Historial</h1>
+  <div id="overflow">
+    {% if hist|length == 0 %}
+      <p> No se han realizado pedidos en esta cuenta. </p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Precio</th>
+            <th>Detalles</th>
+            <th class="toggable" hidden></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in hist %}
+          <tr>
+            <td>{{item.fecha}}</td>
+            <td>{{item.total}} €</td>
+            <td>
+              <button class="show" id="detalle{{item.id}}" onclick="toggler({{item.id}});">Mostrar detalles</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="detailsHist body{{item.id}}" colspan=4>
+              <table class="entireTable">
+                <thead class="detailsHist body{{item.id}}">
+                  <th>Película</th>
+                  <th>Cantidad</th>
+                  <th>Precio por película</th>
+                </thead>
+                {% for film in item.carrito %}
+                <tbody class="detailsHist body{{item.id}}">
+                  <td><a href="{{url_for('detalle',id=film.id)}}">{{film.titulo}}</a></td>
+                  <td>{{film.cantidad}}</td>
+                  <td>{{film.precio}} €</td>
+                </tbody>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  {% if msg %}
+    <p>{{msg}}</p>
+  {% endif %}
+  <div>
+    <p>Saldo actual: {{saldo}} €</p>
+    <form action="{{url_for('historial')}}" method="post">
+      <button type="submit" name="anadir">Añadir dinero (10 €)</button>
+    </form>
+  </div>
+{% endblock %}

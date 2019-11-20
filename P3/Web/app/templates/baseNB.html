@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DVDs & BlueRays</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles/index.css') }}/>
+    <link rel="icon" type="image/png" href={{ url_for('static', filename='images/favicon.png') }}>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <iframe src={{url_for('iframes', name='header.html')}}></iframe>
+      </header>
+
+      <div id="central">
+        <nav>
+          <iframe src={{url_for('iframes', name='menu.html')}}></iframe>
+        </nav>
+
+        <div id="contentfull">
+          {%  block content %} {% endblock %}
+        </div>
+      </div>
+
+      <footer>
+        <iframe src="{{url_for('iframes', name='footer.html')}}"></iframe>
+      </footer>
+    </div>
+  </body>
+</html>

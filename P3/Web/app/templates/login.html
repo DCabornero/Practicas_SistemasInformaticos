@@ -1,0 +1,23 @@
+{% extends "baseNB.html" %}
+
+{% block content %}
+    <h1>Login</h1>
+    <form action="" method="post" novalidate>
+        <label><b>Email</b></label>
+        {% if usuario %}
+          <input name="email" type="text" placeholder="Email" value={{usuario}}>
+        {% else %}
+          <input name="email" type="text" placeholder="Email">
+        {% endif %}
+        <label><b>Contraseña</b></label>
+        <input name="contrasena" type="password" placeholder="Contraseña">
+        <input type="submit" value="Login">
+    </form>
+    {% if errorvacio %}
+      <p class="err"> Rellene todos los campos </p>
+    {% elif erroruser %}
+      <p class="err"> No existe una cuenta con este email </p>
+    {% elif errorpass %}
+      <p class="err"> Contraseña incorrecta </p>
+    {% endif %}
+{% endblock %}

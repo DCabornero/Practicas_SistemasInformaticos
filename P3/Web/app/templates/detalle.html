@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Detalle</h1>
+<div class="portadadet">
+  <img class="portada" src={{ url_for('static', filename='portadas/'~movie.id~'.jpg') }} alt="Portada">
+</div>
+<div class="textodet">
+  <h4>{{movie.titulo}}</h4>
+  <p>Año: {{movie.anio}}</p>
+  <p>Director/es: {{movie.director}}</p>
+  <p>Actores: {{movie.actores}}</p>
+  <p>Sinopsis: {{movie.sinopsis}}</p>
+  <p>Categorías: {{movie.categoria}}</p>
+  <p>Precio: {{movie.precio~'€'}}</p>
+  <button type="submit" name="atras" onclick="history.back()">Atrás</button>
+  <form action="{{url_for('detalle', id=movie.id)}}" method="post">
+    <input type="hidden" name="anadir" value="True">
+    <button type="submit" name="carrito">Añadir al carrito</button>
+  </form>
+  {% if added %}
+    <p> La pelicula ha sido añadida al carrito </p>
+  {% endif %}
+</div>
+{% endblock %}
