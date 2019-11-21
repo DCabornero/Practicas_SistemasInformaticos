@@ -31,23 +31,9 @@ def login():
             return render_template('login.html', errorvacio=True, usuario=usuario)
         if request.form['email'] == '':
             return render_template('login.html', errorvacio=True, usuario=usuario)
-        #try:
-        #    user_data = open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), encoding="utf-8").read()
-        #except:
-        #    return render_template('login.html', erroruser=True, usuario=usuario)
-        #user = json.loads(user_data)
-        #password = hashlib.md5(request.form['contrasena'].encode()).hexdigest()
-        #if password == user['contrasena']:
-        #    session['usuario'] = user['nombre']
-        #    session['id'] = user['email']
-        #    session.modified = True
-        #    return redirect(url_for('index'))
-        #else:
-        #    return render_template('login.html', errorpass=True, usuario=usuario)
         matches = database.db_login(request.form['email'], request.form['contrasena'])
-        print(matches)
-        if matches is not []:
-            session['usuario'] = matches[0]['username']
+        if len(matches) > 0:
+            session['usuario'] = matches[0]['firstname']
             session['id'] = matches[0]['customerid']
             session['email'] = matches[0]['email']
             session.modified = True
@@ -113,32 +99,17 @@ def registro():
     if request.method == 'GET':
         return render_template('registro.html')
     elif request.method == 'POST':
-        if os.path.isdir(os.path.join(app.root_path, 'usuarios/'+request.form['email'])):
-            return render_template('registro.html', errorex=True)
-        os.mkdir(os.path.join(app.root_path, 'usuarios/'+request.form['email']))
-        os.mknod(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'))
-        os.mknod(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'))
-        historial = {
-            "pedidos": []
-        }
-        datos = {
-            "nombre": request.form['nombre'],
-            "apellido": request.form['apellido'],
-            "email": request.form['email'],
-            "tarjeta": request.form['tarjeta'],
-            "fechanacimiento": request.form['fechanacimiento'],
-            "contrasena": hashlib.md5(request.form['contrasena'].encode()).hexdigest(),
-            "saldo": random.randint(0,100)
-        }
-        with open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/datos.json'), mode='w', encoding='utf-8') as datos_file:
-            json.dump(datos, datos_file, ensure_ascii=False)
-        datos_file.close()
-        with open(os.path.join(app.root_path, 'usuarios/'+request.form['email']+'/historial.json'), mode='w', encoding='utf-8') as historial_file:
-            json.dump(historial, historial_file, ensure_ascii=False)
-        historial_file.close()
 
-        session['usuario'] = request.form['nombre']
-        session['id'] = request.form['email']
+        s = request.form
+        valid = database.db_registro(s['email'], s['contrasena'], s['genero'],
+                             s['nombre'], s['tarjeta'], s['apellido'])
+        if(valid == False):
+            return render_template('registro.html', errorex=True)
+
+        matches = database.db_login(s['email'], s['contrasena'])
+        session['usuario'] = matches[0]['firstname']
+        session['id'] = matches[0]['customerid']
+        session['email'] = matches[0]['email']
         session.modified=True
 
         return redirect(url_for('index'))

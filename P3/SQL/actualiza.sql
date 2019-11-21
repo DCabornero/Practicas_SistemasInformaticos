@@ -1,4 +1,4 @@
-ALTER TABLE customers ADD COLUMN saldo decimal DEFAULT 0;
+ALTER TABLE customers ADD COLUMN saldo decimal DEFAULT 0 NOT NULL;
 ALTER TABLE imdb_actormovies ADD PRIMARY KEY (actorid, movieid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES imdb_actors (actorid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES imdb_movies (movieid);
@@ -75,4 +75,17 @@ CREATE TABLE alerts(
 
 DROP TABLE inventory;
 
+ALTER TABLE customers ALTER COLUMN address1 DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN city DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN country DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN region DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN creditcardtype DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN creditcardexpiration DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN username DROP NOT NULL;
+ALTER TABLE customers ALTER COLUMN gender SET NOT NULL;
+ALTER TABLE customers ALTER COLUMN email SET NOT NULL;
+ALTER TABLE customers ADD UNIQUE (email);
+
+ALTER SEQUENCE customers_customerid_seq RESTART WITH 14094;
 --Falta poner la foreign key de customers en orders
+--Falta poner unique not null a los emails
