@@ -3,6 +3,10 @@ ALTER TABLE imdb_actormovies ADD PRIMARY KEY (actorid, movieid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES imdb_actors (actorid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES imdb_movies (movieid);
 
+ALTER TABLE orders ALTER COLUMN netamount SET DEFAULT 0;
+ALTER TABLE orders ALTER COLUMN totalamount SET DEFAULT 0;
+ALTER TABLE orders ALTER COLUMN tax SET DEFAULT 15;
+
 ALTER TABLE products ADD COLUMN stock NUMERIC DEFAULT 0;
 ALTER TABLE products ADD COLUMN sales NUMERIC DEFAULT 0;
 UPDATE products SET sales = inventory.sales, stock = inventory.stock FROM inventory WHERE products.prod_id = inventory.prod_id;
