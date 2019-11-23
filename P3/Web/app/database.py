@@ -1,9 +1,11 @@
 import os
 import sys, traceback
 from sqlalchemy import create_engine
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text
-from sqlalchemy.sql import select, insert, join
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text, literal_column
+from sqlalchemy.sql import select, insert, join, and_, or_, not_
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.dialects.postgresql import aggregate_order_by
+from sqlalchemy import func
 from psycopg2.errors import UniqueViolation
 
 # configurar el motor de sqlalchemy
@@ -18,6 +20,9 @@ db_dirs = Table('imdb_directors', db_meta, autoload=True, autoload_with=db_engin
 db_acts = Table('imdb_actors', db_meta, autoload=True, autoload_with=db_engine)
 db_genres = Table('genres', db_meta, autoload=True, autoload_with=db_engine)
 db_genfilm = Table('imdb_moviegenres', db_meta, autoload=True, autoload_with=db_engine)
+db_prod = Table('products', db_meta, autoload=True, autoload_with=db_engine)
+db_genres = Table('genres', db_meta, autoload=True, autoload_with=db_engine)
+db_filmgen = Table('imdb_moviegenres', db_meta, autoload=True, autoload_with=db_engine)
 
 def db_login(email, password):
     try:
@@ -73,26 +78,124 @@ def db_results(searchparam=None, actit=None, genre=None):
     db_conn = None
     db_conn = db_engine.connect()
     if searchparam is None and genre is None:
-        db_res = select([db_films])
+        db_res = select([db_films.c.movietitle, db_prod.c.prod_id,
+                        db_prod.c.price, db_prod.c.description,
+                        db_dirs.c.directorname,
+                        func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                        db_acts.c.actorname))], distinct=True).where(
+                        and_(
+                            db_prod.c.movieid == db_films.c.movieid,
+                            db_films.c.movieid == db_actfilm.c.movieid,
+                            db_actfilm.c.actorid == db_acts.c.actorid,
+                            db_films.c.movieid == db_dirfilm.c.movieid,
+                            db_dirfilm.c.directorid == db_dirs.c.directorid)
+                        ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
         db_list = db_conn.execute(db_res)
         db_conn.close()
         return list(db_list)
     if searchparam is not None and genre is None:
         if actit == 'actdir':
-            #TODO
-            query = select([db_films], distinct=True).select_from(j).where(text("imdb_directors.directorname like '%{0}%' or imdb_actors.actorname like '%{1}%'".format(searchparam, searchparam)))
+            query = select([db_films.c.movietitle, db_prod.c.prod_id,
+                            db_prod.c.price, db_prod.c.description,
+                            db_dirs.c.directorname,
+                            func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                            db_acts.c.actorname))], distinct=True).where(
+                                and_(
+                                    db_prod.c.movieid == db_films.c.movieid,
+                                    db_films.c.movieid == db_actfilm.c.movieid,
+                                    db_actfilm.c.actorid == db_acts.c.actorid,
+                                    db_films.c.movieid == db_dirfilm.c.movieid,
+                                    db_dirfilm.c.directorid == db_dirs.c.directorid,
+                                    or_(
+                                        db_acts.c.actorname.like("%{0}%".format(searchparam)),
+                                        db_dirs.c.directorname.like("%{0}%".format(searchparam))
+                                    )
+                                )
+                            ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
             result = db_conn.execute(query)
             db_conn.close()
             return list(result)
         else:
-            query = select([db_films], distinct=True).where(text("imdb_movies.movietitle like '%{0}%'".format(searchparam)))
+            query = select([db_films.c.movietitle, db_prod.c.prod_id,
+                            db_prod.c.price, db_prod.c.description,
+                            db_dirs.c.directorname,
+                            func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                            db_acts.c.actorname))], distinct=True).where(
+                                and_(
+                                    db_prod.c.movieid == db_films.c.movieid,
+                                    db_films.c.movieid == db_actfilm.c.movieid,
+                                    db_actfilm.c.actorid == db_acts.c.actorid,
+                                    db_films.c.movieid == db_dirfilm.c.movieid,
+                                    db_dirfilm.c.directorid == db_dirs.c.directorid,
+                                    db_films.c.movietitle.like("%{0}%".format(searchparam))
+                                )
+                            ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
             result = db_conn.execute(query)
             db_conn.close()
             return list(result)
     if searchparam is None and genre is not None:
-        j = join(db_films, db_genfilm, db_genres,
-                 db_films.movieid == db_genfilm.movieid and db_genfilm.genreid == db_genres.genreid)
-        query = select([db_films], distinct=True).where(text("genres.genrename like '%{0}%'".format(genre)))
+        query = select([db_films.c.movietitle, db_prod.c.prod_id,
+                        db_prod.c.price, db_prod.c.description,
+                        db_dirs.c.directorname,
+                        func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                        db_acts.c.actorname))], distinct=True).where(
+                            and_(
+                                db_prod.c.movieid == db_films.c.movieid,
+                                db_films.c.movieid == db_actfilm.c.movieid,
+                                db_actfilm.c.actorid == db_acts.c.actorid,
+                                db_films.c.movieid == db_dirfilm.c.movieid,
+                                db_dirfilm.c.directorid == db_dirs.c.directorid,
+                                db_films.c.movieid == db_filmgen.c.movieid,
+                                db_filmgen.c.genreid == db_genres.c.genreid,
+                                db_genres.c.genrename.like("%{0}%".format(genre))
+                            )
+                        ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
         result = db_conn.execute(query)
         db_conn.close()
         return list(result)
+    else:
+        if actit == 'actdir':
+            query = select([db_films.c.movietitle, db_prod.c.prod_id,
+                            db_prod.c.price, db_prod.c.description,
+                            db_dirs.c.directorname,
+                            func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                            db_acts.c.actorname))], distinct=True).where(
+                                and_(
+                                    db_prod.c.movieid == db_films.c.movieid,
+                                    db_films.c.movieid == db_actfilm.c.movieid,
+                                    db_actfilm.c.actorid == db_acts.c.actorid,
+                                    db_films.c.movieid == db_dirfilm.c.movieid,
+                                    db_dirfilm.c.directorid == db_dirs.c.directorid,
+                                    db_films.c.movieid == db_filmgen.c.movieid,
+                                    db_filmgen.c.genreid == db_genres.c.genreid,
+                                    db_genres.c.genrename.like("%{0}%".format(genre)),
+                                    or_(
+                                        db_acts.c.actorname.like("%{0}%".format(searchparam)),
+                                        db_dirs.c.directorname.like("%{0}%".format(searchparam))
+                                    )
+                                )
+                            ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
+            result = db_conn.execute(query)
+            db_conn.close()
+            return list(result)
+        else:
+            query = select([db_films.c.movietitle, db_prod.c.prod_id,
+                            db_prod.c.price, db_prod.c.description,
+                            db_dirs.c.directorname,
+                            func.string_agg(db_acts.c.actorname, aggregate_order_by(literal_column("'; '"),
+                            db_acts.c.actorname))], distinct=True).where(
+                                and_(
+                                    db_prod.c.movieid == db_films.c.movieid,
+                                    db_films.c.movieid == db_actfilm.c.movieid,
+                                    db_actfilm.c.actorid == db_acts.c.actorid,
+                                    db_films.c.movieid == db_dirfilm.c.movieid,
+                                    db_dirfilm.c.directorid == db_dirs.c.directorid,
+                                    db_films.c.movietitle.like("%{0}%".format(searchparam)),
+                                    db_films.c.movieid == db_filmgen.c.movieid,
+                                    db_filmgen.c.genreid == db_genres.c.genreid,
+                                    db_genres.c.genrename.like("%{0}%".format(genre))
+                                )
+                            ).group_by(db_prod.c.prod_id, db_films.c.movietitle, db_dirs.c.directorid)
+            result = db_conn.execute(query)
+            db_conn.close()
+            return list(result)

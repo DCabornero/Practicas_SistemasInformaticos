@@ -11,6 +11,7 @@
           <tr>
             <th>Portada</th>
             <th>Título</th>
+            <th>Versión</th>
             <th>Director</th>
             <th>Precio</th>
           </tr>
@@ -18,10 +19,11 @@
         <tbody>
         {% for item in movies %}
           <tr>
-            <td><a href={{url_for('detalle',id=item.id)}}><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
-            <td><a href={{url_for('detalle',id=item.id)}}>{{item.titulo}}</a></td>
-            <td>{{item.director}}</td>
-            <td>{{item.precio~'€'}}</td>
+            <td><a href={{url_for('detalle',id=item[1])}}><img class="portada" src={{ url_for('static', filename='portadas/placeholder.png') }} alt="Portada"></a></td>
+            <td><a href={{url_for('detalle',id=item[1])}}>{{item[0]}}</a></td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+            <td>{{item[2]~'€'}}</td>
           </tr>
         {% endfor %}
         </tbody>

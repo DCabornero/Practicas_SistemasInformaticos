@@ -68,14 +68,6 @@ def resultados():
         movies = database.db_results(genre=params['genero'])
     else:
         movies = database.db_results(params['searchparam'], params['textchoice'], params['genero'])
-    #if(params['searchparam'] != ""):
-    #    if(params['textchoice'] == 'actdir'):
-    #        movies=list(filter(lambda film: params.get('searchparam').lower() in film['actores'].lower() or params.get('searchparam').lower() in film['director'].lower(), movies))
-    #    elif(params['textchoice'] == 'titulo'):
-    #        movies=list(filter(lambda film: params.get('searchparam').lower() in film['titulo'].lower(), movies))
-    #if(params['genero'] != 'cualquiera'):
-    #    movies=list(filter(lambda film: params.get('genero').lower() in film['categoria'].lower(), movies))
-    print(movies)
     return render_template('resultados.html', movies=movies)
 
 @app.route('/detalle/<id>', methods=['GET', 'POST'])
