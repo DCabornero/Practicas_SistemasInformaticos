@@ -14,9 +14,9 @@ CREATE OR REPLACE FUNCTION updOrds() RETURNS TRIGGER AS $$
         SET netamount = netamount - OLD.price * OLD.quantity,
         orderdate = NOW()::date
         WHERE orderid = OLD.orderid;
-      ELSE
-        DELETE FROM orders
-        WHERE orderid = OLD.orderid;
+      --ELSE
+        --DELETE FROM orders
+        --WHERE orderid = OLD.orderid;
       END IF;
     END IF;
   RETURN NEW;

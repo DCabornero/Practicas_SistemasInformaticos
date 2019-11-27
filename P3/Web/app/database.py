@@ -23,6 +23,8 @@ db_genfilm = Table('imdb_moviegenres', db_meta, autoload=True, autoload_with=db_
 db_prod = Table('products', db_meta, autoload=True, autoload_with=db_engine)
 db_genres = Table('genres', db_meta, autoload=True, autoload_with=db_engine)
 db_filmgen = Table('imdb_moviegenres', db_meta, autoload=True, autoload_with=db_engine)
+db_orders = Table('orders', db_meta, autoload=True, autoload_with=db_engine)
+db_orddet = Table('orderdetail', db_meta, autoload=True, autoload_with=db_engine)
 
 def db_login(email, password):
     try:
@@ -77,6 +79,7 @@ def db_registro(email, password, gender, name, creditcard, surname):
 def db_results(searchparam=None, actit=None, genre=None):
     db_conn = None
     db_conn = db_engine.connect()
+    # Si no se pone ninguna restricción
     if searchparam is None and genre is None:
         db_res = select([db_films.c.movietitle, db_prod.c.prod_id,
                         db_prod.c.price, db_prod.c.description,
@@ -91,7 +94,9 @@ def db_results(searchparam=None, actit=None, genre=None):
         db_list = db_conn.execute(db_res)
         db_conn.close()
         return list(db_list)
+    # Si hay restricciones que no son el género
     if searchparam is not None and genre is None:
+        # Si hay que filtrar solo por Actor/Director
         if actit == 'actdir':
             query = select([db_films.c.movietitle, db_prod.c.prod_id,
                             db_prod.c.price, db_prod.c.description,
@@ -111,6 +116,7 @@ def db_results(searchparam=None, actit=None, genre=None):
             result = db_conn.execute(query)
             db_conn.close()
             return list(result)
+        # Si hay que filtrar solo por Titulo
         else:
             query = select([db_films.c.movietitle, db_prod.c.prod_id,
                             db_prod.c.price, db_prod.c.description,
@@ -127,6 +133,7 @@ def db_results(searchparam=None, actit=None, genre=None):
             result = db_conn.execute(query)
             db_conn.close()
             return list(result)
+    # Si solo tenemos que filtrar por género
     if searchparam is None and genre is not None:
         query = select([db_films.c.movietitle, db_prod.c.prod_id,
                         db_prod.c.price, db_prod.c.description,
@@ -146,6 +153,7 @@ def db_results(searchparam=None, actit=None, genre=None):
         db_conn.close()
         return list(result)
     else:
+        # Si tenemos que buscar por género y filtrar por Actor/Director
         if actit == 'actdir':
             query = select([db_films.c.movietitle, db_prod.c.prod_id,
                             db_prod.c.price, db_prod.c.description,
@@ -168,6 +176,7 @@ def db_results(searchparam=None, actit=None, genre=None):
             result = db_conn.execute(query)
             db_conn.close()
             return list(result)
+        # Si tenemos que buscar por género y por Título
         else:
             query = select([db_films.c.movietitle, db_prod.c.prod_id,
                             db_prod.c.price, db_prod.c.description,
@@ -222,3 +231,115 @@ def db_detail(prodid):
     result1.insert(4, result3[0][0])
     db_conn.close()
     return result1
+
+def db_check_carrito(userid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    checkquery = select([func.count()]).select_from(db_orders).where(
+        and_(db_orders.c.customerid == userid,
+             db_orders.c.status == None))
+    check = list(db_conn.execute(checkquery))
+    db_conn.close()
+    if(check[0][0] == 0):
+        return False
+    else:
+        return True
+
+
+def db_create_order(userid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = db_orders.insert().values(customerid=userid)
+    db_conn.execute(query)
+    query2 = select([db_orders.c.orderid]).where(
+        and_(
+            db_orders.c.customerid == userid,
+            db_orders.c.status == None
+        )
+    )
+    result = db_conn.execute(query2)
+    result = list(result)
+    db_conn.close()
+    return result
+
+def db_get_order(userid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    checkquery = select([db_orders.c.orderid]).select_from(db_orders).where(
+        and_(db_orders.c.customerid == userid,
+             db_orders.c.status == None))
+    check = list(db_conn.execute(checkquery))
+    db_conn.close()
+    return check[0][0]
+
+def db_get_price(prod_id):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_prod.c.price]).select_from(db_prod).where(
+        db_prod.c.prod_id == prod_id
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
+
+def db_get_quantity(prod_id, orderid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_orddet.c.quantity]).select_from(db_orddet).where(
+        and_(
+            db_orddet.c.prod_id == prod_id,
+            db_orddet.c.orderid == orderid
+    ))
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
+
+def db_insert_product(prod_id, orderid, quantity):
+    db_conn = None
+    db_conn = db_engine.connect()
+    checkquery = select([func.count()]).select_from(db_orders).where(
+        and_(
+            db_orddet.c.orderid == orderid,
+            db_orddet.c.prod_id == prod_id
+        )
+    )
+    check = list(db_conn.execute(checkquery))
+    if(check[0][0] == 0):
+        query = db_orddet.insert().values(orderid=orderid, prod_id=prod_id, quantity=quantity,
+        price=db_get_price(prod_id))
+
+    else:
+        query = update(db_orddet).where(and_(
+            db_orddet.c.orderid == orderid,
+            db_orddet.c.prod_id == prod_id
+        )).values(quantity=db_get_quantity(prod_id, orderid)+quantity)
+    db_conn.execute(query)
+    db_conn.close()
+
+
+def db_get_carrito(orderid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_orddet.c.prod_id, db_orddet.c.quantity]).select_from(db_orddet).where(
+        db_orddet.c.orderid == orderid
+    )
+    result = list(db_conn.execute(query))
+    dict = {}
+    for item in result:
+        dict[item[0]] = item[1]
+    return dict
+
+
+def db_merge_order(userid, carrito):
+    db_conn = None
+    db_conn = db_engine.connect()
+    if db_check_carrito(userid) == False:
+        result = db_create_order(userid)
+        orderid = result[0][0]
+    else:
+        orderid = db_get_order(userid)
+    for item in carrito.keys():
+        db_insert_product(item, orderid, carrito[item])
+    return db_get_carrito(orderid)

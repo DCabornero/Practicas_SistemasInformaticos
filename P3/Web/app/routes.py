@@ -36,6 +36,9 @@ def login():
             session['usuario'] = matches[0]['firstname']
             session['id'] = matches[0]['customerid']
             session['email'] = matches[0]['email']
+            if not 'carrito' in session:
+                session['carrito'] = {}
+            session['carrito'] = database.db_merge_order(session['id'], session['carrito'])
             session.modified = True
             return redirect(url_for('index'))
         else:
@@ -74,16 +77,19 @@ def resultados():
 def detalle(id):
     movie = database.db_detail(id)
     if request.method == 'POST':
+        print(session)
         if 'anadir' in request.form:
             if 'carrito' not in session:
                 session['carrito'] = {}
-                # database.create_order
+                result = database.db_create_order(session['customerid'])
+                session['orderid'] = result[0][0]
+                # Devolver el id de la order y guardarlo en session
             if id in session['carrito']:
                 session['carrito'][id] = session['carrito'][id] + 1
-                # database.update_orderdetail
+                # database.db_update_orderdetail
             else:
                 session['carrito'][id] = 1
-                # database.create_orderdetail
+                # database.db_create_orderdetail
             session.modified = True
             added = True
         else:
@@ -111,6 +117,8 @@ def registro():
         session['usuario'] = matches[0]['firstname']
         session['id'] = matches[0]['customerid']
         session['email'] = matches[0]['email']
+        session['carrito'] = {}
+        session['orderid'] = database.db_create_order(session['id'])[0][0]
         session.modified=True
 
         return redirect(url_for('index'))
@@ -118,11 +126,6 @@ def registro():
 @app.route('/carrito', methods=['GET', 'POST'])
 def carrito():
     #Cálculos generales
-    catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
-    catalogue = json.loads(catalogue_data)
-    movies=catalogue['peliculas']
-    carr = []
-    suma = 0
     if not('carrito' in session):
         session['carrito'] = {}
         session.modified = True

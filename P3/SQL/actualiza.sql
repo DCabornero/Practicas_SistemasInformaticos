@@ -6,6 +6,7 @@ ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIG
 ALTER TABLE orders ALTER COLUMN netamount SET DEFAULT 0;
 ALTER TABLE orders ALTER COLUMN totalamount SET DEFAULT 0;
 ALTER TABLE orders ALTER COLUMN tax SET DEFAULT 15;
+ALTER TABLE orders ALTER COLUMN orderdate SET DEFAULT CURRENT_DATE;
 
 ALTER TABLE products ADD COLUMN stock NUMERIC DEFAULT 0;
 ALTER TABLE products ADD COLUMN sales NUMERIC DEFAULT 0;
@@ -91,5 +92,6 @@ ALTER TABLE customers ALTER COLUMN email SET NOT NULL;
 ALTER TABLE customers ADD UNIQUE (email);
 
 ALTER SEQUENCE customers_customerid_seq RESTART WITH 14094;
+ALTER SEQUENCE orders_orderid_seq RESTART WITH 181791;
 --Falta poner la foreign key de customers en orders
 --Falta poner unique not null a los emails
