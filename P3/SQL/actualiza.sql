@@ -8,7 +8,7 @@ ALTER TABLE orders ALTER COLUMN totalamount SET DEFAULT 0;
 ALTER TABLE orders ALTER COLUMN tax SET DEFAULT 15;
 ALTER TABLE orders ALTER COLUMN orderdate SET DEFAULT CURRENT_DATE;
 
-ALTER TABLE products ADD COLUMN stock NUMERIC DEFAULT 0;
+ALTER TABLE products ADD COLUMN stock NUMERIC DEFAULT 20;
 ALTER TABLE products ADD COLUMN sales NUMERIC DEFAULT 0;
 UPDATE products SET sales = inventory.sales, stock = inventory.stock FROM inventory WHERE products.prod_id = inventory.prod_id;
 
@@ -94,4 +94,3 @@ ALTER TABLE customers ADD UNIQUE (email);
 ALTER SEQUENCE customers_customerid_seq RESTART WITH 14094;
 ALTER SEQUENCE orders_orderid_seq RESTART WITH 181791;
 --Falta poner la foreign key de customers en orders
---Falta poner unique not null a los emails

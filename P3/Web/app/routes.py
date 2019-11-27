@@ -133,7 +133,12 @@ def carrito():
         data = database.db_detail(id)
         data.append(session['carrito'][id])
         carr.append(data)
+        #Si el usuario no está loggeado, no tenemos NI IDEA de cuál es el impuesto a aplicar, luego 0
         suma += data[7]*data[2]
+
+    if 'usuario' in session:
+        suma = database.db_get_totalamount(session['orderid'])
+
 
     #Renderización inicial
     if request.method == 'GET':
@@ -166,28 +171,19 @@ def carrito():
             return redirect(url_for('carrito'))
             #Compra
         if 'usuario' in session:
-            datos_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/datos.json'), encoding="utf-8").read()
-            datos = json.loads(datos_file)
-            if(suma > datos['saldo']):
-                return render_template('carrito.html', carr=carr, suma=round(suma,2), msg='No hay saldo suficiente para realizar la compra.')
-            else:
-                datos['saldo'] -= suma
-                datos['saldo'] = round(datos['saldo'], 2)
-                session['carrito'] = {}
-                session.modified = True
-                with open(os.path.join(app.root_path, 'usuarios/'+session['id']+'/datos.json'), mode='w', encoding='utf-8') as datos_file_output:
-                    json.dump(datos, datos_file_output, ensure_ascii=False)
-                datos_file_output.close()
-                fecha = date.today()
-                historial_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/historial.json'), encoding="utf-8").read()
-                historial = json.loads(historial_file)
-                compra = {"carrito":carr, "fecha":fecha.strftime('%d/%m/%Y'), "total":suma, "id":len(historial['pedidos'])}
-                historial['pedidos'].append(compra)
-                with open(os.path.join(app.root_path, 'usuarios/'+session['id']+'/historial.json'), mode='w', encoding='utf-8') as hist_file:
-                    json.dump(historial, hist_file, ensure_ascii=False)
-                hist_file.close()
-
-                return render_template('carrito.html', carr=session['carrito'], suma=0, msg='¡Compra realizada con éxito!')
+            if database.db_get_saldo(session['id']) < suma:
+                return render_template('carrito.html', carr=session['carrito'], suma=suma, msg='No hay suficiente saldo')
+            for item in session['carrito'].keys():
+                if database.db_get_stock(item) < session['carrito'][item]:
+                    return render_template('carrito.html', carr=session['carrito'], suma=suma,
+                            msg='No hay stock del producto' + db_get_movie_name(item))
+            # En cualquier otro caso, la compra se puede realizar con éxito
+            for item in session['carrito'].keys():
+                database.db_sell_films(item, session['carrito'][item]) #HACER FUNCION
+            database.db_user_finalizar_compra(session['id'], suma) #HACER FUNCION
+            database.db_order_paid(session['orderid']) #HACER FUNCION
+            session['carrito'] = database.db_create_order(session['id'])
+            return render_template('carrito.html', carr=session['carrito'], suma=0, msg='¡Compra realizada con éxito!')
         else:
             return render_template('carrito.html', carr=carr, suma=suma, msg='Necesitas estar logueado para poder comprar')
 

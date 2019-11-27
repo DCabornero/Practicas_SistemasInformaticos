@@ -365,3 +365,41 @@ def db_merge_order(userid, carrito):
     for item in carrito.keys():
         db_insert_product(item, orderid, carrito[item])
     return db_get_carrito(orderid)
+
+def db_get_totalamount(orderid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_orders.c.totalamount]).select_from(db_orders).where(
+        db_orders.c.orderid == orderid
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
+def db_get_movie_name(product_id):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_films.c.movietitle]).select_from(db_films).where(
+        and_(
+        db_prod.c.prod_id == product_id,
+        db_films.c.movieid == db_prod.c.movieid)
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
+def db_get_saldo(userid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_cust.c.saldo]).select_from(db_cust).where(
+        db_cust.c.customerid == userid
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
+def db_sell_films(prod_id, quantity):
+
+def db_user_finalizar_compra(userid, price):
+
+def db_order_paid(orderid):
