@@ -1,4 +1,4 @@
-ALTER TABLE customers ADD COLUMN saldo decimal DEFAULT 0 NOT NULL;
+ALTER TABLE customers ADD COLUMN saldo decimal DEFAULT 50 NOT NULL;
 ALTER TABLE imdb_actormovies ADD PRIMARY KEY (actorid, movieid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES imdb_actors (actorid);
 ALTER TABLE imdb_actormovies ADD CONSTRAINT imdb_actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES imdb_movies (movieid);

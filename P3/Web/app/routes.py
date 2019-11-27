@@ -39,6 +39,7 @@ def login():
             if not 'carrito' in session:
                 session['carrito'] = {}
             session['carrito'] = database.db_merge_order(session['id'], session['carrito'])
+            print(session['carrito'])
             session['orderid'] = database.db_get_order(session['id'])
             session.modified = True
             return redirect(url_for('index'))
@@ -76,10 +77,19 @@ def resultados():
 
 @app.route('/detalle/<id>', methods=['GET', 'POST'])
 def detalle(id):
+    id = int(id)
     movie = database.db_detail(id)
     if request.method == 'POST':
         print(session)
         if 'anadir' in request.form:
+            if id in session['carrito']:
+                if database.db_get_stock(id) <= session['carrito'][id]:
+                    if len(movie[5]) > 1024:
+                        movie[5] = movie[5][:1023]
+                        movie[5] += "..."
+                    return render_template('detalle.html', movie=movie, added=False, stock=True)
+            elif database.db_get_stock(id) == 0:
+                return render_template('detalle.html', movie=movie, added=False, stock=True)
             if 'carrito' not in session:
                 session['carrito'] = {}
             if 'usuario' in session:
@@ -97,7 +107,7 @@ def detalle(id):
     if len(movie[5]) > 1024:
         movie[5] = movie[5][:1023]
         movie[5] += "..."
-    return render_template('detalle.html', movie=movie, added=added)
+    return render_template('detalle.html', movie=movie, added=added, stock=False)
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -126,10 +136,11 @@ def carrito():
     #Cálculos generales
     suma = 0
     carr = []
-    if not('carrito' in session):
+    if 'carrito' not in session:
         session['carrito'] = {}
         session.modified = True
     for id in session['carrito']:
+        id = int(id)
         data = database.db_detail(id)
         data.append(session['carrito'][id])
         carr.append(data)
@@ -148,7 +159,8 @@ def carrito():
     if request.method == 'POST':
         if 'idAdd' in request.form:
             id = request.form['idAdd']
-            if database.db_get_stock(id) < session['carrito'][id] + 1:
+            id = int(id)
+            if database.db_get_stock(id) <= session['carrito'][id]:
                 return render_template('carrito.html', carr=carr,
                                         suma=suma, msg='No hay suficiente stock de esa película')
             if 'usuario' in session:
@@ -158,6 +170,8 @@ def carrito():
             return redirect(url_for('carrito'))
         if 'idRemove' in request.form:
             id = request.form['idRemove']
+            id = int(id)
+            print(session['carrito'])
             if session['carrito'][id]==1:
                 if 'usuario' in session:
                     database.db_remove_product(id, session['orderid'])
@@ -172,18 +186,19 @@ def carrito():
             #Compra
         if 'usuario' in session:
             if database.db_get_saldo(session['id']) < suma:
-                return render_template('carrito.html', carr=session['carrito'], suma=suma, msg='No hay suficiente saldo')
+                return render_template('carrito.html', carr=carr, suma=suma, msg='No hay suficiente saldo')
             for item in session['carrito'].keys():
                 if database.db_get_stock(item) < session['carrito'][item]:
-                    return render_template('carrito.html', carr=session['carrito'], suma=suma,
-                            msg='No hay stock del producto' + db_get_movie_name(item))
+                    return render_template('carrito.html', carr=carr, suma=suma,
+                            msg=('No hay stock del producto' + db_get_movie_name(item)))
             # En cualquier otro caso, la compra se puede realizar con éxito
-            for item in session['carrito'].keys():
-                database.db_sell_films(item, session['carrito'][item]) #HACER FUNCION
-            database.db_user_finalizar_compra(session['id'], suma) #HACER FUNCION
+            # for item in session['carrito'].keys():
+            #     database.db_sell_films(item, session['carrito'][item])
+            database.db_user_finalizar_compra(session['id'], suma)
             database.db_order_paid(session['orderid']) #HACER FUNCION
-            session['carrito'] = database.db_create_order(session['id'])
-            return render_template('carrito.html', carr=session['carrito'], suma=0, msg='¡Compra realizada con éxito!')
+            session['orderid'] = database.db_create_order(session['id'])[0][0]
+            session['carrito'] = {}
+            return render_template('carrito.html', carr=[], suma=0, msg='¡Compra realizada con éxito!')
         else:
             return render_template('carrito.html', carr=carr, suma=suma, msg='Necesitas estar logueado para poder comprar')
 

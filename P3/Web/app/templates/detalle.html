@@ -20,5 +20,8 @@
   {% if added %}
     <p> La pelicula ha sido añadida al carrito </p>
   {% endif %}
+  {% if stock %}
+    <p> No hay suficiente stock de la película </p>
+  {% endif %}
 </div>
 {% endblock %}

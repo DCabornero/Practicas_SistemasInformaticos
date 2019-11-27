@@ -256,6 +256,16 @@ def db_get_stock(prod_id):
     return result[0][0]
 
 
+def db_get_sales(prod_id):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_prod.c.sales]).select_from(db_prod).where(
+        db_prod.c.prod_id == prod_id
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
 def db_create_order(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -388,6 +398,7 @@ def db_get_movie_name(product_id):
     db_conn.close()
     return result[0][0]
 
+
 def db_get_saldo(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -398,8 +409,31 @@ def db_get_saldo(userid):
     db_conn.close()
     return result[0][0]
 
-def db_sell_films(prod_id, quantity):
+
+# def db_sell_films(prod_id, quantity):
+#     db_conn = None
+#     db_conn = db_engine.connect()
+#     query = update(db_prod).where(
+#         db_prod.c.prod_id = prod_id
+#     )).values(stock=db_get_stock(prod_id)-quantity,sales=db_get_sales(prod_id)+quantity)
+#     result = list(db_conn.execute(query))
+#     db_conn.close()
+#     return result[0][0]
 
 def db_user_finalizar_compra(userid, price):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = update(db_cust).where(
+        db_cust.c.customerid == userid
+    ).values(saldo=db_get_saldo(userid)-price)
+    db_conn.execute(query)
+    db_conn.close()
 
 def db_order_paid(orderid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = update(db_orders).where(
+        db_orders.c.orderid == orderid
+    ).values(status='PAID')
+    db_conn.execute(query)
+    db_conn.close()
