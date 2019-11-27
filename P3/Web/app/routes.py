@@ -11,13 +11,14 @@ import hashlib
 import random
 from datetime import date
 
+
 @app.route('/')
 @app.route('/index')
 def index():
-    print (url_for('static', filename='estilo.css'), file=sys.stderr)
-    catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
-    catalogue = json.loads(catalogue_data)
-    return render_template('index.html', title = "Home", movies=catalogue['peliculas'])
+    init_year = 2017
+    catalogue = database.db_get_top_ventas(2017)
+    return render_template('index.html', title = "Home", movies=catalogue)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,6 +47,7 @@ def login():
         else:
             return render_template('login.html', errorpass=True, usuario=usuario)
 
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     response = make_response(redirect(url_for('index')))
@@ -55,12 +57,14 @@ def logout():
     session.modified = True
     return response
 
+
 @app.route('/iframes/<name>')
 def iframes(name):
     if 'usuario' in session:
         return render_template(name, sesion=session['usuario'])
     else:
         return render_template(name)
+
 
 @app.route('/resultados')
 def resultados():
@@ -74,6 +78,7 @@ def resultados():
     else:
         movies = database.db_results(params['searchparam'], params['textchoice'], params['genero'])
     return render_template('resultados.html', movies=movies)
+
 
 @app.route('/detalle/<id>', methods=['GET', 'POST'])
 def detalle(id):
@@ -109,6 +114,7 @@ def detalle(id):
         movie[5] += "..."
     return render_template('detalle.html', movie=movie, added=added, stock=False)
 
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'GET':
@@ -130,6 +136,7 @@ def registro():
         session.modified=True
 
         return redirect(url_for('index'))
+
 
 @app.route('/carrito', methods=['GET', 'POST'])
 def carrito():
@@ -202,6 +209,7 @@ def carrito():
         else:
             return render_template('carrito.html', carr=carr, suma=suma, msg='Necesitas estar logueado para poder comprar')
 
+
 @app.route('/historial', methods=['GET', 'POST'])
 def historial():
     if request.method == 'GET':
@@ -222,6 +230,7 @@ def historial():
                 json.dump(datos, dat_file, ensure_ascii=False)
             dat_file.close()
         return redirect(url_for('historial'))
+
 
 @app.route('/visitors', methods=['GET'])
 def visitors():

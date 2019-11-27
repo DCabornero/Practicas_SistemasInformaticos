@@ -26,6 +26,8 @@ db_filmgen = Table('imdb_moviegenres', db_meta, autoload=True, autoload_with=db_
 db_orders = Table('orders', db_meta, autoload=True, autoload_with=db_engine)
 db_orddet = Table('orderdetail', db_meta, autoload=True, autoload_with=db_engine)
 
+# Función que obtiene un usuario dados su email y contraseña si este existe
+# Se usa para el login
 def db_login(email, password):
     try:
         # conexion a la base de datos
@@ -48,6 +50,7 @@ def db_login(email, password):
 
         return 'Something is broken'
 
+# Inserta un nuevo usuario en la tabla customers si no hay inconsistencias
 def db_registro(email, password, gender, name, creditcard, surname):
     try:
         # conexion a la base de datos
@@ -76,6 +79,7 @@ def db_registro(email, password, gender, name, creditcard, surname):
 
         return 'Something is broken'
 
+# Devuelve los resultados de una búsqueda dados ciertos filtros
 def db_results(searchparam=None, actit=None, genre=None):
     db_conn = None
     db_conn = db_engine.connect()
@@ -197,6 +201,7 @@ def db_results(searchparam=None, actit=None, genre=None):
             db_conn.close()
             return list(result)
 
+# Devuelve los detalles del producto indicado con prod_id
 def db_detail(prodid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -232,6 +237,7 @@ def db_detail(prodid):
     db_conn.close()
     return result1
 
+# Comprueba si existe un carrito del usuario en la base de datos
 def db_check_carrito(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -245,6 +251,7 @@ def db_check_carrito(userid):
     else:
         return True
 
+# Obtiene el stock de cierto producto
 def db_get_stock(prod_id):
     db_conn = None
     db_conn = db_engine.connect()
@@ -255,7 +262,7 @@ def db_get_stock(prod_id):
     db_conn.close()
     return result[0][0]
 
-
+# Obtiene las ventas de cierto producto
 def db_get_sales(prod_id):
     db_conn = None
     db_conn = db_engine.connect()
@@ -266,6 +273,7 @@ def db_get_sales(prod_id):
     db_conn.close()
     return result[0][0]
 
+# Crea un carrito vacío
 def db_create_order(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -282,6 +290,8 @@ def db_create_order(userid):
     db_conn.close()
     return result
 
+# Obtiene el carrito del usuario (Se comprueba previamente si existe en python
+# con la función db_check_carrito)
 def db_get_order(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -292,6 +302,7 @@ def db_get_order(userid):
     db_conn.close()
     return check[0][0]
 
+# Obtiene el precio de cierto producto
 def db_get_price(prod_id):
     db_conn = None
     db_conn = db_engine.connect()
@@ -302,7 +313,7 @@ def db_get_price(prod_id):
     db_conn.close()
     return result[0][0]
 
-
+# Obtiene la cantidad existente de un producto en el carrito del usuario
 def db_get_quantity(prod_id, orderid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -315,7 +326,7 @@ def db_get_quantity(prod_id, orderid):
     db_conn.close()
     return result[0][0]
 
-
+# Inserta cierta cantidad de un producto en el carrito
 def db_insert_product(prod_id, orderid, quantity):
     db_conn = None
     db_conn = db_engine.connect()
@@ -338,6 +349,7 @@ def db_insert_product(prod_id, orderid, quantity):
     db_conn.execute(query)
     db_conn.close()
 
+# Borra la entrada en orderdetail de cierto producto
 def db_remove_product(prod_id, orderid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -350,7 +362,7 @@ def db_remove_product(prod_id, orderid):
     db_conn.execute(query)
     db_conn.close()
 
-
+# Obtiene el diccionario representando el carrito del usuario
 def db_get_carrito(orderid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -364,6 +376,7 @@ def db_get_carrito(orderid):
     db_conn.close()
     return dict
 
+# Une el carrito previo al login con el que pudiera tener el usuario en la base de datos
 def db_merge_order(userid, carrito):
     db_conn = None
     db_conn = db_engine.connect()
@@ -376,6 +389,7 @@ def db_merge_order(userid, carrito):
         db_insert_product(item, orderid, carrito[item])
     return db_get_carrito(orderid)
 
+# Obtiene el precio neto actual del carrito
 def db_get_totalamount(orderid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -386,6 +400,7 @@ def db_get_totalamount(orderid):
     db_conn.close()
     return result[0][0]
 
+# Obtiene el título de una película dado un prod_id
 def db_get_movie_name(product_id):
     db_conn = None
     db_conn = db_engine.connect()
@@ -398,7 +413,7 @@ def db_get_movie_name(product_id):
     db_conn.close()
     return result[0][0]
 
-
+# Obtiene el saldo actual del usuario
 def db_get_saldo(userid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -409,17 +424,7 @@ def db_get_saldo(userid):
     db_conn.close()
     return result[0][0]
 
-
-# def db_sell_films(prod_id, quantity):
-#     db_conn = None
-#     db_conn = db_engine.connect()
-#     query = update(db_prod).where(
-#         db_prod.c.prod_id = prod_id
-#     )).values(stock=db_get_stock(prod_id)-quantity,sales=db_get_sales(prod_id)+quantity)
-#     result = list(db_conn.execute(query))
-#     db_conn.close()
-#     return result[0][0]
-
+# Sustrae el precio de la compra del saldo del usuario
 def db_user_finalizar_compra(userid, price):
     db_conn = None
     db_conn = db_engine.connect()
@@ -429,6 +434,7 @@ def db_user_finalizar_compra(userid, price):
     db_conn.execute(query)
     db_conn.close()
 
+# Cambia el status de un carrito a 'Paid'(El trigger se encarga del resto)
 def db_order_paid(orderid):
     db_conn = None
     db_conn = db_engine.connect()
@@ -437,3 +443,37 @@ def db_order_paid(orderid):
     ).values(status='PAID')
     db_conn.execute(query)
     db_conn.close()
+
+# Usa la función getTopVentas para obtener las tres películas más vendidas
+# en los últimos 3 años para mostrarlas en la portada
+def db_get_top_ventas(year):
+    db_conn = None
+    db_conn = db_engine.connect()
+    result1 = db_conn.execute("SELECT * FROM getTopVentas({0})".format(year))
+    result1 = list(result1)
+    query1 = select([db_films.c.movietitle, db_prod.c.prod_id, db_films.c.year]).where(
+        and_(
+            db_films.c.movieid == db_prod.c.movieid,
+            db_films.c.movietitle == result1[0][1]
+        )
+    )
+    query2 = select([db_films.c.movietitle, db_prod.c.prod_id, db_films.c.year]).where(
+        and_(
+            db_films.c.movieid == db_prod.c.movieid,
+            db_films.c.movietitle == result1[1][1]
+        )
+    )
+    query3 = select([db_films.c.movietitle, db_prod.c.prod_id, db_films.c.year]).where(
+        and_(
+            db_films.c.movieid == db_prod.c.movieid,
+            db_films.c.movietitle == result1[2][1]
+        )
+    )
+    first = list(db_conn.execute(query1))
+    first = first[0]
+    second = list(db_conn.execute(query2))
+    second = second[0]
+    third = list(db_conn.execute(query3))
+    third = third[0]
+    db_conn.close()
+    return [first, second, third]

@@ -3,21 +3,32 @@ CREATE OR REPLACE FUNCTION updInv() RETURNS TRIGGER AS $$
     auxrec RECORD;
     final INTEGER;
   BEGIN
-    FOR auxrec IN SELECT prod_id, quantity FROM orderdetail WHERE orderid = OLD.orderid
+    FOR auxrec IN
+      SELECT
+        prod_id,
+        quantity
+      FROM
+        orderdetail
+      WHERE
+        orderid = OLD.orderid
     LOOP
       UPDATE products
-      SET stock = stock - auxrec.quantity,
-      sales = sales + auxrec.quantity
-      WHERE products.prod_id = auxrec.prod_id;
+        SET
+          stock = stock - auxrec.quantity,
+          sales = sales + auxrec.quantity
+        WHERE
+          products.prod_id = auxrec.prod_id;
       final := (SELECT stock FROM products WHERE products.prod_id = auxrec.prod_id);
       IF final = 0 THEN
         INSERT INTO alerts(prod_id)
-        VALUES (auxrec.prod_id);
+          VALUES (auxrec.prod_id);
       END IF;
     END LOOP;
     UPDATE orders
-    SET orderdate = NOW()::date
-    WHERE OLD.orderid = orders.orderid;
+      SET
+        orderdate = NOW()::date
+      WHERE
+        OLD.orderid = orders.orderid;
     RETURN NEW;
   END;
 $$ LANGUAGE PLPGSQL;

@@ -4,17 +4,15 @@
   <h1>Novedades</h1>
   <div id="novedades">
     {% for item in movies %}
-    {% if item.dest %}
     <div class="novedad">
-        <a href={{'detalle/'~item.id}}>
-          <img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada">
+        <a href={{'detalle/'~item[1]}}>
+          <img class="portada" src={{ url_for('static', filename='portadas/placeholder.png') }} alt="Portada">
         </a>
         <div class="datos">
-          <h4>{{item.titulo}}</h4>
-          <p>Sinopsis: {{item.sinopsis}}</p>
+          <h4>{{item[0]}}</h4>
+          <p>Año de estreno: {{item[2]}}</p>
         </div>
     </div>
-    {% endif %}
     {% endfor %}
   </div>
 {% endblock %}
