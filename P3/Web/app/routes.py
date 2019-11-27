@@ -39,6 +39,7 @@ def login():
             if not 'carrito' in session:
                 session['carrito'] = {}
             session['carrito'] = database.db_merge_order(session['id'], session['carrito'])
+            session['orderid'] = database.db_get_order(session['id'])
             session.modified = True
             return redirect(url_for('index'))
         else:
@@ -81,15 +82,12 @@ def detalle(id):
         if 'anadir' in request.form:
             if 'carrito' not in session:
                 session['carrito'] = {}
-                result = database.db_create_order(session['customerid'])
-                session['orderid'] = result[0][0]
-                # Devolver el id de la order y guardarlo en session
+            if 'usuario' in session:
+                database.db_insert_product(id, session['orderid'], 1)
             if id in session['carrito']:
                 session['carrito'][id] = session['carrito'][id] + 1
-                # database.db_update_orderdetail
             else:
                 session['carrito'][id] = 1
-                # database.db_create_orderdetail
             session.modified = True
             added = True
         else:
@@ -126,35 +124,47 @@ def registro():
 @app.route('/carrito', methods=['GET', 'POST'])
 def carrito():
     #Cálculos generales
+    suma = 0
+    carr = []
     if not('carrito' in session):
         session['carrito'] = {}
         session.modified = True
     for id in session['carrito']:
-        data = list(filter(lambda film: str(film['id']) == id, movies))[0]
-        data['cantidad'] = session['carrito'][id]
+        data = database.db_detail(id)
+        data.append(session['carrito'][id])
         carr.append(data)
-        suma += data['cantidad']*data['precio']
+        suma += data[7]*data[2]
 
     #Renderización inicial
     if request.method == 'GET':
         return render_template('carrito.html', carr=carr, suma=round(suma,2))
 
-    #Compra
+    #POST (Compra o modificación de carrito)
     if request.method == 'POST':
         if 'idAdd' in request.form:
             id = request.form['idAdd']
+            if database.db_get_stock(id) < session['carrito'][id] + 1:
+                return render_template('carrito.html', carr=carr,
+                                        suma=suma, msg='No hay suficiente stock de esa película')
+            if 'usuario' in session:
+                database.db_insert_product(id, session['orderid'], 1)
             session['carrito'][id] += 1
             session.modified = True
             return redirect(url_for('carrito'))
         if 'idRemove' in request.form:
             id = request.form['idRemove']
             if session['carrito'][id]==1:
+                if 'usuario' in session:
+                    database.db_remove_product(id, session['orderid'])
                 session['carrito'].pop(id)
                 session.modified = True
             else:
+                if 'usuario' in session:
+                    database.db_insert_product(id, session['orderid'], -1)
                 session['carrito'][id] -= 1
                 session.modified = True
             return redirect(url_for('carrito'))
+            #Compra
         if 'usuario' in session:
             datos_file = open(os.path.join(app.root_path,'usuarios/'+session['id']+'/datos.json'), encoding="utf-8").read()
             datos = json.loads(datos_file)

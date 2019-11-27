@@ -2,7 +2,7 @@ import os
 import sys, traceback
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text, literal_column
-from sqlalchemy.sql import select, insert, join, and_, or_, not_
+from sqlalchemy.sql import select, insert, join, and_, or_, not_, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.postgresql import aggregate_order_by
 from sqlalchemy import func
@@ -245,6 +245,16 @@ def db_check_carrito(userid):
     else:
         return True
 
+def db_get_stock(prod_id):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = select([db_prod.c.stock]).select_from(db_prod).where(
+        db_prod.c.prod_id == prod_id
+    )
+    result = list(db_conn.execute(query))
+    db_conn.close()
+    return result[0][0]
+
 
 def db_create_order(userid):
     db_conn = None
@@ -318,6 +328,18 @@ def db_insert_product(prod_id, orderid, quantity):
     db_conn.execute(query)
     db_conn.close()
 
+def db_remove_product(prod_id, orderid):
+    db_conn = None
+    db_conn = db_engine.connect()
+    query = db_orddet.delete().where(
+        and_(
+            db_orddet.c.orderid == orderid,
+            db_orddet.c.prod_id == prod_id
+        )
+    )
+    db_conn.execute(query)
+    db_conn.close()
+
 
 def db_get_carrito(orderid):
     db_conn = None
@@ -329,8 +351,8 @@ def db_get_carrito(orderid):
     dict = {}
     for item in result:
         dict[item[0]] = item[1]
+    db_conn.close()
     return dict
-
 
 def db_merge_order(userid, carrito):
     db_conn = None

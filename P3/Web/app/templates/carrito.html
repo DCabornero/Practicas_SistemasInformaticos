@@ -12,6 +12,7 @@
             <th>Portada</th>
             <th>Título</th>
             <th>Director</th>
+            <th>Edición</th>
             <th>Precio</th>
             <th>Cantidad</th>
             <th>Añadir</th>
@@ -21,20 +22,21 @@
         <tbody>
         {% for item in carr %}
           <tr>
-            <td><a href={{'detalle/'~item.id}}><img class="portada" src={{ url_for('static', filename='portadas/'~item.id~'.jpg') }} alt="Portada"></a></td>
-            <td><a href={{'detalle/'~item.id}}>{{item.titulo}}</a></td>
-            <td>{{item.director}}</td>
-            <td>{{item.precio~'€'}}</td>
-            <td>{{item.cantidad}}</td>
+            <td><a href={{'detalle/'~item[1]}}><img class="portada" src={{ url_for('static', filename='portadas/placeholder.png') }} alt="Portada"></a></td>
+            <td><a href={{'detalle/'~item[1]}}>{{item[0]}}</a></td>
+            <td>{{item[4]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[2]~'€'}}</td>
+            <td>{{item[7]}}</td>
             <td>
               <form action="{{url_for('carrito')}}" method="post">
-                <input type="hidden" name="idAdd" value={{item.id}}>
+                <input type="hidden" name="idAdd" value={{item[1]}}>
                 <button type="submit">Añadir unidad</button>
               </form>
             </td>
             <td>
               <form action="{{url_for('carrito')}}" method="post">
-                <input type="hidden" name="idRemove" value={{item.id}}>
+                <input type="hidden" name="idRemove" value={{item[1]}}>
                 <button type="submit">Eliminar unidad</button>
               </form>
             </td>

@@ -2,22 +2,24 @@ CREATE OR REPLACE FUNCTION updOrds() RETURNS TRIGGER AS $$
   DECLARE
     more_prods INTEGER;
   BEGIN
-    IF TG_OP = 'INSERT' or TG_OP = 'UPDATE' THEN
+    IF TG_OP = 'UPDATE' THEN
+      UPDATE orders
+      SET netamount = netamount + NEW.price * (NEW.quantity - OLD.quantity),
+      orderdate = NOW()::date,
+      totalamount = totalamount + ROUND((NEW.price * (NEW.quantity - OLD.quantity))*tax/100, 2)
+      WHERE orderid = NEW.orderid;
+    ELSIF TG_OP = 'INSERT' THEN
       UPDATE orders
       SET netamount = netamount + NEW.price * NEW.quantity,
-      orderdate = NOW()::date
+      orderdate = NOW()::date,
+      totalamount = totalamount + ROUND((NEW.price * NEW.quantity)*tax/100, 2)
       WHERE orderid = NEW.orderid;
     ELSE
-      SELECT COUNT(*) INTO more_prods FROM orderdetail WHERE orderdetail.orderid = OLD.orderid;
-      IF more_prods > 0 THEN
-        UPDATE orders
-        SET netamount = netamount - OLD.price * OLD.quantity,
-        orderdate = NOW()::date
-        WHERE orderid = OLD.orderid;
-      --ELSE
-        --DELETE FROM orders
-        --WHERE orderid = OLD.orderid;
-      END IF;
+      UPDATE orders
+      SET netamount = netamount - OLD.price * OLD.quantity,
+      orderdate = NOW()::date,
+      totalamount = totalamount + ROUND((OLD.price * OLD.quantity)*tax/100, 2)
+      WHERE orderid = OLD.orderid;
     END IF;
   RETURN NEW;
   END;
