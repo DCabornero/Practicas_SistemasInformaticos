@@ -3,18 +3,17 @@
 {% block content %}
 <h1>Detalle</h1>
 <div class="portadadet">
-  <img class="portada" src={{ url_for('static', filename='portadas/'~movie.id~'.jpg') }} alt="Portada">
+  <img class="portada" src={{ url_for('static', filename='portadas/placeholder.png') }} alt="Portada">
 </div>
 <div class="textodet">
-  <h4>{{movie.titulo}}</h4>
-  <p>Año: {{movie.anio}}</p>
-  <p>Director/es: {{movie.director}}</p>
-  <p>Actores: {{movie.actores}}</p>
-  <p>Sinopsis: {{movie.sinopsis}}</p>
-  <p>Categorías: {{movie.categoria}}</p>
-  <p>Precio: {{movie.precio~'€'}}</p>
+  <h4>{{movie[0]}}</h4>
+  <p>Director/es: {{movie[4]}}</p>
+  <p>Actores: {{movie[5]}}</p>
+  <p>Edición: {{movie[3]}}</p>
+  <p>Categorías: {{movie[6]}}</p>
+  <p>Precio: {{movie[2]~'€'}}</p>
   <button type="submit" name="atras" onclick="history.back()">Atrás</button>
-  <form action="{{url_for('detalle', id=movie.id)}}" method="post">
+  <form action="{{url_for('detalle', id=movie[1])}}" method="post">
     <input type="hidden" name="anadir" value="True">
     <button type="submit" name="carrito">Añadir al carrito</button>
   </form>

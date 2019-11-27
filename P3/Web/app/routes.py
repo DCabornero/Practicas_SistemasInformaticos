@@ -72,25 +72,28 @@ def resultados():
 
 @app.route('/detalle/<id>', methods=['GET', 'POST'])
 def detalle(id):
-    catalogue_data = open(os.path.join(app.root_path,'catalogue/catalogue.json'), encoding="utf-8").read()
-    catalogue = json.loads(catalogue_data)
-    movies=catalogue['peliculas']
-    movies=list(filter(lambda film: str(film['id']) == id, movies))
+    movie = database.db_detail(id)
     if request.method == 'POST':
         if 'anadir' in request.form:
             if 'carrito' not in session:
                 session['carrito'] = {}
+                # database.create_order
             if id in session['carrito']:
                 session['carrito'][id] = session['carrito'][id] + 1
+                # database.update_orderdetail
             else:
                 session['carrito'][id] = 1
+                # database.create_orderdetail
             session.modified = True
             added = True
         else:
             added = False
     else:
         added = False
-    return render_template('detalle.html', movie=movies[0], added=added)
+    if len(movie[5]) > 1024:
+        movie[5] = movie[5][:1023]
+        movie[5] += "..."
+    return render_template('detalle.html', movie=movie, added=added)
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
