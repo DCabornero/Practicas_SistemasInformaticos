@@ -10,38 +10,38 @@ import time
 
 @app.route('/borraCliente', methods=['POST','GET'])
 def borraCliente():
-    if 'customerid' in request.form:
-        customerid = request.form["customerid"]
-        bSQL       = request.form["txnSQL"]
-        bCommit = "bCommit" in request.form
-        bFallo  = "bFallo"  in request.form
-        duerme  = request.form["duerme"]
+    if 'customerid' in request.args:
+        customerid = request.args["customerid"]
+        bSQL       = request.args["txnSQL"]
+        bCommit = "bCommit" in request.args
+        bFallo  = "bFallo"  in request.args
+        duerme  = request.args["duerme"]
         dbr = database.delCustomer(customerid, bFallo, bSQL=='1', int(duerme), bCommit)
         return render_template('borraCliente.html', dbr=dbr)
-    else:                
+    else:
         return render_template('borraCliente.html')
-    
+
 @app.route('/xSearchInjection', methods=['GET'])
-def xSearchInjection(): 
+def xSearchInjection():
     if 'i_anio' in request.args:
         anio  = request.args['i_anio']
-        dbr = database.getMovies(anio)        
+        dbr = database.getMovies(anio)
         return render_template('xSearchInjection.html', dbr=dbr)
-    else:                
+    else:
         return render_template('xSearchInjection.html')
 
 @app.route('/xLoginInjection', methods=['GET','POST'])
-def xLoginInjection(): 
+def xLoginInjection():
     if 'login' in request.form:
         login  = request.form['login']
-        pswd   = request.form['pswd']        
+        pswd   = request.form['pswd']
         dbr = database.getCustomer(login, pswd)
         return render_template('xLoginInjection.html', dbr=dbr)
     else:
         return render_template('xLoginInjection.html')
 
 @app.route('/listaClientesMes', methods=['GET', 'POST'])
-def listaClientesMes(): 
+def listaClientesMes():
     if 'fecha' in request.form:
         fecha  = request.form['fecha']
         mes    = request.form['mes']
@@ -57,8 +57,8 @@ def listaClientesMes():
         dbr = database.getListaCliMes(db_conn, mes, anio, int(umbral), int(intervalo), use_prepare, break0, int(niter))
         t1=round(time.time() * 1000)
         database.dbCloseConnect(db_conn)
-        
-        return render_template('listaClientesMes.html', 
+
+        return render_template('listaClientesMes.html',
             fecha = fecha,
             mes   = mes,
             anio  = anio,
@@ -71,4 +71,3 @@ def listaClientesMes():
            )
     else:
         return render_template('listaClientesMes.html')
-

@@ -92,7 +92,12 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
 
     # Array de trazas a mostrar en la página
     dbr=[]
-
+    det = "DELETE FROM orderdetail WHERE orderid IN (SELECT orderid FROM orders NATURAL JOIN customers WHERE customerid = {0})".format(customerid)
+    ord = "DELETE FROM orders WHERE customerid = {0}".format(customerid)
+    cust = "DELETE FROM customers WHERE customerid = {0}".format(customerid)
+    detcount = "SELECT count(*) FROM orderdetail WHERE orderid IN (SELECT orderid FROM orders NATURAL JOIN customers WHERE customerid = {0})".format(customerid)
+    ordcount = "SELECT count(*) FROM orders WHERE customerid = {0}".format(customerid)
+    custcount = "SELECT count(*) FROM customers WHERE customerid = {0}".format(customerid)
     # TODO: Ejecutar consultas de borrado
     # - ordenar consultas según se desee provocar un error (bFallo True) o no
     # - ejecutar commit intermedio si bCommit es True
@@ -100,17 +105,81 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
     # - suspender la ejecución 'duerme' segundos en el punto adecuado para forzar deadlock
     # - ir guardando trazas mediante dbr.append()
 
+    consultas = []
+    contador = 0
+    if bFallo:
+        consultas.append(det)
+        if bSQL and bCommit:
+            consultas.append("COMMIT")
+            consultas.append("BEGIN")
+        consultas.append(cust)
+        consultas.append(ord)
+    else:
+        consultas.append(det)
+        consultas.append(ord)
+        consultas.append(cust)
     try:
-        # TODO: ejecutar consultas
-        pass
+        db_conn = dbConnect()
+        if bSQL:
+            db_conn.execute("BEGIN")
+            dbr.append("Begin SQL")
+        else:
+            trans = db_conn.begin()
+            dbr.append("Begin Alch")
+        for con in consultas:
+            if contador == 1 and bCommit and not bSQL and bFallo:
+                trans.commit()
+                dbr.append("Commit Alch")
+                trans = db_conn.begin()
+                dbr.append("Begin Alch")
+            if con == "COMMIT":
+                dbr.append("Commit SQL")
+            elif con == "BEGIN":
+                dbr.append("Begin SQL")
+            elif con.split()[2] == "orderdetail":
+                dbr.append("Detalles pre-borrado:")
+                dbr.append(list(db_conn.execute(detcount))[0][0])
+            elif con.split()[2] == "orders":
+                dbr.append("Orders pre-borrado:")
+                dbr.append(list(db_conn.execute(ordcount))[0][0])
+            elif con.split()[2] == "customers":
+                dbr.append("Cliente pre-borrado:")
+                dbr.append(list(db_conn.execute(custcount))[0][0])
+            dbr.append("Intentamos ejecutar el borrado")
+            db_conn.execute(con)
+            if con.split()[2] == "orderdetail":
+                dbr.append("Detalles post-borrado:")
+                dbr.append(list(db_conn.execute(detcount))[0][0])
+            elif con.split()[2] == "orders":
+                dbr.append("Orders post-borrado:")
+                dbr.append(list(db_conn.execute(ordcount))[0][0])
+            elif con.split()[2] == "customers":
+                dbr.append("Clientes post-borrado:")
+                dbr.append(list(db_conn.execute(custcount))[0][0])
+            contador += 1
 
     except Exception as e:
-        # TODO: deshacer en caso de error
-        pass
+        if bSQL:
+            db_conn.execute("ROLLBACK")
+            dbr.append("Rollback SQL")
+        else:
+            trans.rollback()
+            dbr.append("Rollback Alch")
 
     else:
-        # TODO: confirmar cambios si todo va bien
-        pass
+        if bSQL:
+             db_conn.execute("COMMIT")
+             dbr.append("Commit SQL")
+        else:
+            trans.commit()
+            dbr.append("Commit Alch")
 
-
+    dbr.append("Estado tras ejecucion:")
+    dbr.append("Details:")
+    dbr.append(list(db_conn.execute(detcount))[0][0])
+    dbr.append("Orders:")
+    dbr.append(list(db_conn.execute(ordcount))[0][0])
+    dbr.append("Customers:")
+    dbr.append(list(db_conn.execute(custcount))[0][0])
+    dbCloseConnect(db_conn)
     return dbr
