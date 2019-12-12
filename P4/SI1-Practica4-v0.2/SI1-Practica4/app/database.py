@@ -116,6 +116,8 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
         consultas.append(ord)
     else:
         consultas.append(det)
+        if duerme and duerme > 0:
+            consultas.append("PERFORM pg_sleep({0});".format(duerme))
         consultas.append(ord)
         consultas.append(cust)
     try:
@@ -127,6 +129,7 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
             trans = db_conn.begin()
             dbr.append("Begin Alch")
         for con in consultas:
+            dbr.append(con)
             if contador == 1 and bCommit and not bSQL and bFallo:
                 trans.commit()
                 dbr.append("Commit Alch")
@@ -136,6 +139,8 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
                 dbr.append("Commit SQL")
             elif con == "BEGIN":
                 dbr.append("Begin SQL")
+            elif con.split()[0] == "PERFORM":
+                dbr.append("Sleeping")
             elif con.split()[2] == "orderdetail":
                 dbr.append("Detalles pre-borrado:")
                 dbr.append(list(db_conn.execute(detcount))[0][0])
@@ -161,10 +166,10 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
     except Exception as e:
         if bSQL:
             db_conn.execute("ROLLBACK")
-            dbr.append("Rollback SQL")
+            dbr.append(str(e))
         else:
             trans.rollback()
-            dbr.append("Rollback Alch")
+            dbr.append(str(e))
 
     else:
         if bSQL:

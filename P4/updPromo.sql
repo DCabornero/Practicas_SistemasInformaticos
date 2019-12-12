@@ -24,6 +24,11 @@ CREATE OR REPLACE FUNCTION updProm() RETURNS TRIGGER AS $$
       GROUP BY
         orderid) AS calc
     WHERE orders.orderid = calc.orderid;
+    -- Para el deadlock
+    PERFORM pg_sleep(60);
+    UPDATE orderdetail
+    SET
+      price = price;
   RETURN NEW;
   END;
 $$ LANGUAGE PLPGSQL;
