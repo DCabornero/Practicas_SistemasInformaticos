@@ -116,8 +116,6 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
         consultas.append(ord)
     else:
         consultas.append(det)
-        if duerme and duerme > 0:
-            consultas.append("sleep {0}".format(duerme))
         consultas.append(ord)
         consultas.append(cust)
     try:
@@ -129,7 +127,6 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
             trans = db_conn.begin()
             dbr.append("Begin Alch")
         for con in consultas:
-            dbr.append(con)
             if contador == 1 and bCommit and not bSQL and bFallo:
                 trans.commit()
                 dbr.append("Commit Alch")
@@ -139,10 +136,6 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
                 dbr.append("Commit SQL")
             elif con == "BEGIN":
                 dbr.append("Begin SQL")
-            elif con.split()[0] == "sleep":
-                dbr.append("Sleeping")
-                time.sleep(int(con.split()[1]))
-                continue
             elif con.split()[2] == "orderdetail":
                 dbr.append("Detalles pre-borrado:")
                 dbr.append(list(db_conn.execute(detcount))[0][0])
@@ -152,12 +145,8 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
             elif con.split()[2] == "customers":
                 dbr.append("Cliente pre-borrado:")
                 dbr.append(list(db_conn.execute(custcount))[0][0])
-            if con.split()[0] == "DELETE":
-                dbr.append("Intentamos ejecutar el borrado")
-            if con.split()[0] != "sleep":
-                db_conn.execute(con)
-            if len(con.split()) <= 2:
-                continue
+            dbr.append("Intentamos ejecutar el borrado")
+            db_conn.execute(con)
             if con.split()[2] == "orderdetail":
                 dbr.append("Detalles post-borrado:")
                 dbr.append(list(db_conn.execute(detcount))[0][0])
@@ -172,11 +161,9 @@ def delCustomer(customerid, bFallo, bSQL, duerme, bCommit):
     except Exception as e:
         if bSQL:
             db_conn.execute("ROLLBACK")
-            dbr.append(str(e))
             dbr.append("Rollback SQL")
         else:
             trans.rollback()
-            dbr.append(str(e))
             dbr.append("Rollback Alch")
 
     else:
