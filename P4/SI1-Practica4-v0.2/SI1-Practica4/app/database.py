@@ -30,6 +30,15 @@ def getListaCliMes(db_conn, mes, anio, iumbral, iintervalo, use_prepare, break0,
     # - mediante PREPARE, EXECUTE, DEALLOCATE si use_prepare es True
     # - mediante db_conn.execute() si es False
 
+    if use_prepare:
+        db_conn.execute("PREPARE cons (int, int, int) AS SELECT\
+          COUNT(DISTINCT customerid) AS cc\
+        FROM\
+          orders\
+        WHERE\
+          date_part('year', orderdate) = $1 AND\
+          date_part('month', orderdate) = $2 AND\
+          totalamount > $3;")
 
     # Array con resultados de la consulta para cada umbral
     dbr=[]
@@ -37,8 +46,11 @@ def getListaCliMes(db_conn, mes, anio, iumbral, iintervalo, use_prepare, break0,
     for ii in range(niter):
 
         # TODO: ...
-        consultaiter = consulta + "{0};".format(iumbral)
-        res = db_conn.execute(consultaiter).first()
+        if use_prepare:
+            res = db_conn.execute("EXECUTE cons ({0},{1},{2});".format(anio, mes, iumbral)).first()
+        else:
+            consultaiter = consulta + "{0};".format(iumbral)
+            res = db_conn.execute(consultaiter).first()
         # Guardar resultado de la query
         dbr.append({"umbral":iumbral,"contador":res['cc']})
 
@@ -50,6 +62,8 @@ def getListaCliMes(db_conn, mes, anio, iumbral, iintervalo, use_prepare, break0,
         # Actualizacion de umbral
         iumbral = iumbral + iintervalo
 
+    if use_prepare:
+        db_conn.execute("DEALLOCATE cons;")
     return dbr
 
 def getMovies(anio):
