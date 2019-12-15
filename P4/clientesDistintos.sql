@@ -1,3 +1,4 @@
+CREATE INDEX ON orders (totalamount, orderdate);
 EXPLAIN
 SELECT
   COUNT(DISTINCT customerid)
